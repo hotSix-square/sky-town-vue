@@ -20,7 +20,7 @@ import Tabs from "./Tabs/Tabs.vue";
 import Modal from "./Modal.vue";
 import Parallax from "./Parallax.vue";
 import Slider from "./Slider.vue";
-
+import SimpleTable from "./SimpleTable.vue";
 import Pagination from "./Pagination.vue";
 
 export {
@@ -45,4 +45,5 @@ export {
   Parallax,
   Slider,
   Button,
+  SimpleTable,
 };

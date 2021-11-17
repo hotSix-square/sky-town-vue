@@ -8,6 +8,6 @@ module.exports = {
   },
   outputDir: path.resolve(
     __dirname,
-    "C:\\SSAFY\\workspace\\work-vue\\Vue_Happyhouse\\src\\main\\resources\\static"
+    "C:\\SSAFY\\workspace\\work-vue\\pjt_daejeon_6th_class4_final_team04\\HappyhouseAPI\\src\\main\\resources\\static"
   ),
 };

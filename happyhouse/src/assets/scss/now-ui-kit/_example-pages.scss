@@ -1,7 +1,7 @@
 // style for the landing page
 .index-page {
   .page-header {
-    height: 75vh;
+    height: 100vh;
 
     // .container {
     //   > .content-center {
@@ -78,9 +78,11 @@
 }
 
 // style for the profile page
-.profile-page {
+.profile-page,
+.qna-page,
+.house-page {
   .page-header {
-    min-height: 550px;
+    min-height: 200px;
   }
 
   .profile-container {
@@ -97,7 +99,8 @@
 
   .title {
     text-align: center;
-    margin-top: 30px;
+    padding-top: 0;
+    // margin-top: 30px;
   }
 
   .description,
@@ -115,7 +118,7 @@
   }
 
   .content {
-    max-width: 450px;
+    // max-width: 450px;
     margin: 0 auto;
 
     .social-description {
@@ -206,7 +209,9 @@
 }
 
 .login-page,
-.profile-page {
+.profile-page,
+.qna-page,
+.house-page {
   .page-header:before {
     position: absolute;
     z-index: 0;
@@ -265,5 +270,16 @@
     font-size: 0.8rem;
     color: $white-color;
     text-decoration: none;
+  }
+}
+
+.qna-page,
+.house-page {
+  .page-header {
+    height: 40vh;
+  }
+  .brand h1 {
+    margin-bottom: 0;
+    font-weight: normal;
   }
 }
