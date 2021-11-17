@@ -474,6 +474,9 @@ export default {
 
 
 # 뉴스기사 크롤링
+<img width="838" alt="스크린샷 2021-11-18 오전 12 54 29" src="https://user-images.githubusercontent.com/57389799/142234835-daa63e9d-6ab5-4478-bced-e3a24267797d.png">
+
+
 - 서버쪽과 ajax 통신을 통해 뉴스기사를 크롤링 해온다.
 - ajax 통신으로 받은 데이터를 기반으로 vue template 를 구성해준다.
 
