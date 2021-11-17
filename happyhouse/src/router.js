@@ -5,6 +5,7 @@ import Login from "./pages/Login.vue";
 import Register from "./pages/Register.vue";
 import House from "./pages/House.vue";
 import QnA from "./pages/QnA.vue";
+import CreateForm from "./pages/components/qna/CreateForm.vue";
 import News from "./pages/News.vue";
 import Dust from "./pages/Dust.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
@@ -58,6 +59,27 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
       },
+      redirect: "/question/list",
+      children: [
+        {
+          path: "list",
+          name: "qnalist",
+          components: { default: QnA, header: MainNavbar, footer: MainFooter },
+          props: {
+            header: { colorOnScroll: 400 },
+            footer: { backgroundColor: "black" },
+          },
+        },
+        {
+          path: "form",
+          name: "form",
+          component: { default: CreateForm, header: MainNavbar, footer: MainFooter },
+          props: {
+            header: { colorOnScroll: 400 },
+            footer: { backgroundColor: "black" },
+          },
+        },
+      ],
     },
     {
       path: "/news",

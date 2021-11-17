@@ -16,8 +16,14 @@
       <div class="container">
         <h3 class="title">문의 내역</h3>
         <div class="content">
+          <n-button type="primary" @click="$router.push({ name: 'form' })"
+            >문의하기</n-button
+          >
           <card>
-            <simple-table :content="arrayOfContent"></simple-table>
+            <simple-table
+              v-if="arrayOfContent !== null"
+              :content="arrayOfContent"
+            ></simple-table>
           </card>
         </div>
       </div>
@@ -26,18 +32,19 @@
 </template>
 <script>
 import axios from "axios";
-import { SimpleTable, Card } from "@/components";
+import { Button, SimpleTable, Card } from "@/components";
 
 export default {
   name: "qna-page",
   bodyClass: "qna-page",
   components: {
+    [Button.name]: Button,
     SimpleTable,
     Card,
   },
   data() {
     return {
-      arrayOfContent: [],
+      arrayOfContent: null,
     };
   },
   created() {

@@ -10,7 +10,12 @@
         <div class="content-center brand">
           <h3>Welcome To Our Site!</h3>
           <h1 style="font-weight: bold">IT'S NICE TO MEET YOU</h1>
-          <n-button type="primary" size="lg">Find House</n-button>
+          <n-button
+            type="primary"
+            size="lg"
+            @click="$router.push({ name: 'house' })"
+            >Find House</n-button
+          >
         </div>
       </div>
     </div>

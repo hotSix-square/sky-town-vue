@@ -5,6 +5,7 @@
     :style="{ height: tableHeight + '%' }"
   >
     <div class="t-body">
+<<<<<<< HEAD
       <div v-for="(array, index) in content" v-bind:key="index" class="items">
         <p
           :style="{ width: columnsWidth + 'px' }"
@@ -13,21 +14,52 @@
         >
           {{ item }}
         </p>
+=======
+      <div
+        v-for="(array, index) in questionList"
+        v-bind:key="index"
+        @click="clickList(array.no, index)"
+      >
+        <div class="items">
+          <badge
+            :type="array.state == '답변대기' ? 'default' : 'primary'"
+            class="text-center mb-0"
+            >{{ array.state }}</badge
+          >
+          <div class="col-1 text-center">{{ array.no }}</div>
+          <div class="col">{{ array.title }}</div>
+          <div class="col-2 text-center">{{ array.writer }}</div>
+          <div class="col-2 text-center">{{ array.dateTime }}</div>
+        </div>
+        <template v-if="isActive[index]">
+          <div>{{ array.content }}</div>
+          <template v-if="array.answer != null">
+            <div>{{ array.answer.content }}</div>
+            <div>{{ array.answer.dateTime }}</div>
+          </template>
+        </template>
+>>>>>>> refs/remotes/origin/master
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { Badge } from "@/components";
+
 export default {
   name: "SimpleTable",
+<<<<<<< HEAD
+=======
+  components: {
+    Badge,
+  },
+>>>>>>> refs/remotes/origin/master
   props: {
     //content: Array,
     content: {
       type: Array,
-      default: () => {
-        return [[""]];
-      },
     },
     data() {
       return {
@@ -37,6 +69,29 @@ export default {
     tableHeight: { type: [String, Number] },
     columnsWidth: { type: [String, Number], default: 100 },
     darkModeOn: { type: Boolean, default: false },
+  },
+  data() {
+    return {
+      questionList: [],
+      isActive: [],
+    };
+  },
+  created() {
+    this.questionList = this.content;
+    this.isActive = new Array(this.questionList.length);
+    // console.log(this.questionList);
+  },
+  methods: {
+    clickList(no, index) {
+      if (this.questionList[index].answer === null) {
+        axios.get("http://localhost:9999/api/answer/" + no).then((resp) => {
+          this.questionList[index].answer = resp["data"];
+          console.log(this.questionList[index]);
+        });
+      }
+      // console.log(resp["data"]);
+      this.isActive[index] = !this.isActive[index];
+    },
   },
 };
 </script>
@@ -99,16 +154,19 @@ p {
   color: var(--color-2);
 }
 .items {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   margin-top: 5px;
   padding: 10px 0;
   color: var(--color-5);
   transition: all 0.3s ease 0s;
+  justify-content: space-between;
+  align-items: center;
 }
 .items:nth-child(even) {
   background-color: var(--color-3);
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 .items:hover {
   background: var(--color-1);
@@ -120,6 +178,7 @@ p {
 .t-body {
   margin-top: 20px;
 }
+<<<<<<< HEAD
 .search {
   height: 35px;
   width: 50%;
@@ -159,4 +218,6 @@ p {
 .button-search:hover {
   background-color: var(--color-4);
 }
+=======
+>>>>>>> refs/remotes/origin/master
 </style>
