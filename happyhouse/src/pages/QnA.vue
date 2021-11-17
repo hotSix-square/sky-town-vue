@@ -41,8 +41,9 @@ export default {
     };
   },
   created() {
-    axios.get("http://localhost:9999/api/question").then((resp) => {
+      axios.get("http://localhost:9999/api/question").then((resp) => {
       this.arrayOfContent = resp["data"];
+      console.log(this.arrayOfContent);
     });
   },
 };

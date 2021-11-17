@@ -5,11 +5,7 @@
     :style="{ height: tableHeight + '%' }"
   >
     <div class="t-body">
-      <div
-        v-for="(array, index) in receiveContentList"
-        v-bind:key="index"
-        class="items"
-      >
+      <div v-for="(array, index) in content" v-bind:key="index" class="items">
         <p
           :style="{ width: columnsWidth + 'px' }"
           v-for="(item, index) in array"
@@ -25,17 +21,18 @@
 <script>
 export default {
   name: "SimpleTable",
-  data() {
-    return {
-      receiveContentList: this.content,
-    };
-  },
   props: {
+    //content: Array,
     content: {
       type: Array,
       default: () => {
         return [[""]];
       },
+    },
+    data() {
+      return {
+        receiveContentList: this.content,
+      };
     },
     tableHeight: { type: [String, Number] },
     columnsWidth: { type: [String, Number], default: 100 },
