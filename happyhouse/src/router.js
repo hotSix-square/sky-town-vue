@@ -4,7 +4,9 @@ import Index from "./pages/Index.vue";
 import Login from "./pages/Login.vue";
 import Register from "./pages/Register.vue";
 import House from "./pages/House.vue";
-import Profile from "./pages/Profile.vue";
+import QnA from "./pages/QnA.vue";
+import News from "./pages/News.vue";
+import Dust from "./pages/Dust.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
 
@@ -51,7 +53,25 @@ export default new Router({
     {
       path: "/question",
       name: "question",
-      components: { default: Profile, header: MainNavbar, footer: MainFooter },
+      components: { default: QnA, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/news",
+      name: "news",
+      components: { default: News, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/dust",
+      name: "dust",
+      components: { default: Dust, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
