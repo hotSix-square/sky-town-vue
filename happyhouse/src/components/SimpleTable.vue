@@ -6,40 +6,72 @@
   >
     <div class="t-body">
       <div
-        v-for="(array, index) in receiveContentList"
+        v-for="(array, index) in questionList"
         v-bind:key="index"
-        class="items"
+        @click="clickList(array.no, index)"
       >
-        <p
-          :style="{ width: columnsWidth + 'px' }"
-          v-for="(item, index) in array"
-          v-bind:key="index"
-        >
-          {{ item }}
-        </p>
+        <div class="items">
+          <badge
+            :type="array.state == '답변대기' ? 'default' : 'primary'"
+            class="text-center mb-0"
+            >{{ array.state }}</badge
+          >
+          <div class="col-1 text-center">{{ array.no }}</div>
+          <div class="col">{{ array.title }}</div>
+          <div class="col-2 text-center">{{ array.writer }}</div>
+          <div class="col-2 text-center">{{ array.dateTime }}</div>
+        </div>
+        <template v-if="isActive[index]">
+          <div>{{ array.content }}</div>
+          <template v-if="array.answer != null">
+            <div>{{ array.answer.content }}</div>
+            <div>{{ array.answer.dateTime }}</div>
+          </template>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { Badge } from "@/components";
+
 export default {
   name: "SimpleTable",
-  data() {
-    return {
-      receiveContentList: this.content,
-    };
+  components: {
+    Badge,
   },
   props: {
     content: {
       type: Array,
-      default: () => {
-        return [[""]];
-      },
     },
     tableHeight: { type: [String, Number] },
     columnsWidth: { type: [String, Number], default: 100 },
     darkModeOn: { type: Boolean, default: false },
+  },
+  data() {
+    return {
+      questionList: [],
+      isActive: [],
+    };
+  },
+  created() {
+    this.questionList = this.content;
+    this.isActive = new Array(this.questionList.length);
+    // console.log(this.questionList);
+  },
+  methods: {
+    clickList(no, index) {
+      if (this.questionList[index].answer === null) {
+        axios.get("http://localhost:9999/api/answer/" + no).then((resp) => {
+          this.questionList[index].answer = resp["data"];
+          console.log(this.questionList[index]);
+        });
+      }
+      // console.log(resp["data"]);
+      this.isActive[index] = !this.isActive[index];
+    },
   },
 };
 </script>
@@ -102,16 +134,19 @@ p {
   color: var(--color-2);
 }
 .items {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   margin-top: 5px;
   padding: 10px 0;
   color: var(--color-5);
   transition: all 0.3s ease 0s;
+  justify-content: space-between;
+  align-items: center;
 }
 .items:nth-child(even) {
   background-color: var(--color-3);
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 .items:hover {
   background: var(--color-1);
@@ -122,44 +157,5 @@ p {
 }
 .t-body {
   margin-top: 20px;
-}
-.search {
-  height: 35px;
-  width: 50%;
-  max-width: 500px;
-  border-radius: 20px;
-  outline: none;
-  border: 3px solid var(--color-1);
-  padding: 0 20px;
-  font-family: "Varela Round", sans-serif;
-  color: var(--color-5);
-  background: var(--background);
-}
-.wrapper-search {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-}
-.icon-search {
-  fill: var(--color-2);
-}
-.search::placeholder {
-  color: var(--color-4);
-  font-weight: bold;
-  font-size: 15px;
-}
-.button-search {
-  margin-left: -45px;
-  border-radius: 20px;
-  height: 30px;
-  width: 40px;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-  background-color: var(--color-1);
-  transition: all 0.3s ease 0s;
-}
-.button-search:hover {
-  background-color: var(--color-4);
 }
 </style>
