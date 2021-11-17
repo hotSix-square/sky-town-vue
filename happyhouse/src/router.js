@@ -59,27 +59,19 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },
       },
-      redirect: "/question/list",
-      children: [
-        {
-          path: "list",
-          name: "qnalist",
-          components: { default: QnA, header: MainNavbar, footer: MainFooter },
-          props: {
-            header: { colorOnScroll: 400 },
-            footer: { backgroundColor: "black" },
-          },
-        },
-        {
-          path: "form",
-          name: "form",
-          component: { default: CreateForm, header: MainNavbar, footer: MainFooter },
-          props: {
-            header: { colorOnScroll: 400 },
-            footer: { backgroundColor: "black" },
-          },
-        },
-      ],
+    },
+    {
+      path: "/createquestion",
+      name: "questionForm",
+      component: {
+        default: CreateForm,
+        header: MainNavbar,
+        footer: MainFooter,
+      },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
     },
     {
       path: "/news",

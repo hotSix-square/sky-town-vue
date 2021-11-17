@@ -12,7 +12,7 @@
               <h3>Create an Account!</h3>
             </div>
 
-            <fg-input type="text" class="input-lg" placeholder="ID" />
+            <!-- <fg-input type="text" class="input-lg" placeholder="ID" />
             <fg-input type="password" class="input-lg" placeholder="PASSWORD" />
             <fg-input
               type="password"
@@ -20,7 +20,7 @@
               placeholder="REPEAT PASSWORD"
             />
             <fg-input type="text" class="input-lg" placeholder="NAME" />
-            <fg-input type="text" class="input-lg" placeholder="EMAIL" />
+            <fg-input type="text" class="input-lg" placeholder="EMAIL" /> -->
 
             <template slot="raw-content">
               <div class="card-footer text-center">

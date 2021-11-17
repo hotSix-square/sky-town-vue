@@ -16,7 +16,9 @@
       <div class="container">
         <h3 class="title">문의 내역</h3>
         <div class="content">
-          <n-button type="primary" @click="$router.push({ name: 'form' })"
+          <n-button
+            type="primary"
+            @click="$router.push({ name: 'questionForm' })"
             >문의하기</n-button
           >
           <card>
