@@ -63,7 +63,7 @@ export default new Router({
     {
       path: "/createquestion",
       name: "questionForm",
-      component: {
+      components: {
         default: CreateForm,
         header: MainNavbar,
         footer: MainFooter,

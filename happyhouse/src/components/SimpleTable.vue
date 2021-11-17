@@ -5,16 +5,6 @@
     :style="{ height: tableHeight + '%' }"
   >
     <div class="t-body">
-<<<<<<< HEAD
-      <div v-for="(array, index) in content" v-bind:key="index" class="items">
-        <p
-          :style="{ width: columnsWidth + 'px' }"
-          v-for="(item, index) in array"
-          v-bind:key="index"
-        >
-          {{ item }}
-        </p>
-=======
       <div
         v-for="(array, index) in questionList"
         v-bind:key="index"
@@ -38,7 +28,6 @@
             <div>{{ array.answer.dateTime }}</div>
           </template>
         </template>
->>>>>>> refs/remotes/origin/master
       </div>
     </div>
   </div>
@@ -50,12 +39,9 @@ import { Badge } from "@/components";
 
 export default {
   name: "SimpleTable",
-<<<<<<< HEAD
-=======
   components: {
     Badge,
   },
->>>>>>> refs/remotes/origin/master
   props: {
     //content: Array,
     content: {
@@ -178,46 +164,4 @@ p {
 .t-body {
   margin-top: 20px;
 }
-<<<<<<< HEAD
-.search {
-  height: 35px;
-  width: 50%;
-  max-width: 500px;
-  border-radius: 20px;
-  outline: none;
-  border: 3px solid var(--color-1);
-  padding: 0 20px;
-  font-family: "Varela Round", sans-serif;
-  color: var(--color-5);
-  background: var(--background);
-}
-.wrapper-search {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-}
-.icon-search {
-  fill: var(--color-2);
-}
-.search::placeholder {
-  color: var(--color-4);
-  font-weight: bold;
-  font-size: 15px;
-}
-.button-search {
-  margin-left: -45px;
-  border-radius: 20px;
-  height: 30px;
-  width: 40px;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-  background-color: var(--color-1);
-  transition: all 0.3s ease 0s;
-}
-.button-search:hover {
-  background-color: var(--color-4);
-}
-=======
->>>>>>> refs/remotes/origin/master
 </style>

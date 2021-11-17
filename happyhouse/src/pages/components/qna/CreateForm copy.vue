@@ -9,29 +9,42 @@
         <div class="col-md-5 ml-auto mr-auto">
           <card type="login" plain>
             <div slot="header" class="logo-container">
-              <h3>문의하기</h3>
+              <h3>Create an Account!</h3>
             </div>
 
+            <!-- <fg-input type="text" class="input-lg" placeholder="ID" />
+            <fg-input type="password" class="input-lg" placeholder="PASSWORD" />
             <fg-input
-              type="text"
+              type="password"
               class="input-lg"
-              placeholder="TITLE"
-              v-model="question.title"
+              placeholder="REPEAT PASSWORD"
             />
-            <fg-input
-              v-model="question.content"
-              type="text"
-              class="input-lg"
-              placeholder="input content..."
-            />
+            <fg-input type="text" class="input-lg" placeholder="NAME" />
+            <fg-input type="text" class="input-lg" placeholder="EMAIL" /> -->
 
             <template slot="raw-content">
               <div class="card-footer text-center">
                 <a
-                  @click="insertQuestion()"
+                  href="#pablo"
                   class="btn btn-primary btn-round btn-lg btn-block"
-                  >등록</a
+                  >Register</a
                 >
+              </div>
+              <div>
+                <h6>
+                  <router-link :to="{ name: 'login' }" class="link footer-link"
+                    >Already have an account? Login!</router-link
+                  >
+                </h6>
+              </div>
+              <div>
+                <h6>
+                  <router-link
+                    :to="{ name: 'findPassword' }"
+                    class="link footer-link"
+                    >Forgot Password?</router-link
+                  >
+                </h6>
               </div>
             </template>
           </card>
@@ -41,7 +54,6 @@
   </div>
 </template>
 <script>
-import axios from "axios";
 import { Checkbox, Card, Button, FormGroupInput } from "@/components";
 
 export default {
@@ -55,27 +67,8 @@ export default {
   },
   data() {
     return {
-      question: {
-        title: "",
-        content: "",
-        writer: "ssafy",
-        state: "답변대기",
-      },
+      checked: true,
     };
-  },
-  methods: {
-    insertQuestion() {
-      axios
-        .post("http://localhost:9999/api/question", this.question)
-        .then((resp) => {
-          if (resp["data"] == "success") {
-            alert("추가 완료");
-            this.$router.push({ name: "question" });
-          } else {
-            alert("추가 실패");
-          }
-        });
-    },
   },
 };
 </script>
