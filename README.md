@@ -14,17 +14,209 @@
 - [x]  메뉴에 QnA 게시판 추가 - 기본(필수) 기능
 - [x]  QnA 게시글 목록 서비스 - 기본(필수) 기능
 - [x]  QnA 게시글 입력 서비스 - 기본(필수) 기능
-- [x]  QnA 게시글 수정, 삭제, 상세 검색 서비스 - 기본(필수) 기능
+- [x]  상세 검색 서비스 - 기본(필수) 기능
+- [ ]  QnA 게시글 수정 서비스 - 기본(필수) 기능
+- [ ]  QnA 게시글 수정 서비스 - 기본(필수) 기능
 - [X]  추가 기능 Vue에 적용
 
 저녁
 
-- [ ]  결과(산출물) 작성
+- [x]]  결과(산출물) 작성
+
+# 서버 구축
+## DB Table 추가
+```sql
+CREATE TABLE `happyhouse`.`question` (
+  `no` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(100) NOT NULL,
+  `content` VARCHAR(1000) NOT NULL,
+  `datetime` DATETIME NULL DEFAULT now(),
+  `writer` VARCHAR(16) NOT NULL,
+  `state` VARCHAR(45) NULL,
+  PRIMARY KEY (`no`),
+  FOREIGN KEY (`writer`) REFERENCES `happyhouse`.`member` (`userid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+  );
+  
+CREATE TABLE `happyhouse`.`answer` (
+  `no` INT NOT NULL AUTO_INCREMENT,
+  `content` VARCHAR(1000) NULL,
+  `datetime` DATETIME NULL DEFAULT now(),
+  `p_no` INT NOT NULL,
+  PRIMARY KEY (`no`),
+  FOREIGN KEY (`p_no`) REFERENCES `happyhouse`.`question` (`no`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+```
+
+## RestController 구현
+- QuestionController
+```java
+package com.ssafy.happyhouse.controller;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ssafy.happyhouse.model.Question;
+import com.ssafy.happyhouse.model.service.QuestionService;
+
+import io.swagger.annotations.ApiOperation;
+
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
+@RestController
+@RequestMapping("/api/question")
+public class QuestionController {
+	private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
+
+	@Autowired
+	private QuestionService questionService;
+
+	@ApiOperation(value = "모든 문의글의 정보를 반환한다.", response = List.class)
+	@GetMapping
+	public ResponseEntity<List<Question>> retrieveQuestion() throws Exception {
+		logger.debug("retrieveQuestion - 호출");
+		return new ResponseEntity<List<Question>>(questionService.retrieveQuestion(), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "글번호에 해당하는 문의글의 정보를 반환한다.", response = Question.class)
+	@GetMapping("{no}")
+	public ResponseEntity<Question> detailQuestion(@PathVariable int no) {
+		logger.debug("detailQuestion - 호출");
+		return new ResponseEntity<Question>(questionService.detailQuestion(no), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "새로운 문의글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PostMapping
+	public ResponseEntity<String> writeQuestion(@RequestBody Question question) {
+		logger.debug("writeQuestion - 호출");
+		if (questionService.writeQuestion(question)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	@ApiOperation(value = "글번호에 해당하는 문의글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping
+	public ResponseEntity<String> updateQuestion(@RequestBody Question question) {
+		logger.debug("updateQuestion - 호출");
+		logger.debug("" + question);
+
+		if (questionService.updateQuestion(question)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	@ApiOperation(value = "글번호에 해당하는 문의글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("{no}")
+	public ResponseEntity<String> deleteQuestion(@PathVariable int no) {
+		logger.debug("deleteQuestion - 호출");
+		if (questionService.deleteQuestion(no)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+}
+```
+- AnswerController
+```java
+package com.ssafy.happyhouse.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ssafy.happyhouse.model.Answer;
+import com.ssafy.happyhouse.model.service.AnswerService;
+
+import io.swagger.annotations.ApiOperation;
+
+@CrossOrigin(origins = { "*" }, maxAge = 6000)
+@RestController
+@RequestMapping("/api/answer")
+public class AnswerController {
+	private static final Logger logger = LoggerFactory.getLogger(AnswerController.class);
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
+
+	@Autowired
+	private AnswerService answerService;
+
+	@ApiOperation(value = "글번호에 해당하는 답글의 정보를 반환한다.", response = Answer.class)
+	@GetMapping("{no}")
+	public ResponseEntity<Answer> detailAnswer(@PathVariable int no) {
+		logger.debug("detailAnswer - 호출");
+		return new ResponseEntity<Answer>(answerService.detailAnswer(no), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "새로운 답글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PostMapping
+	public ResponseEntity<String> writeAnswer(@RequestBody Answer answer) {
+		logger.debug("writeAnswer - 호출");
+		if (answerService.writeAnswer(answer)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	@ApiOperation(value = "글번호에 해당하는 답글의 정보를 수정한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping
+	public ResponseEntity<String> updateAnswer(@RequestBody Answer answer) {
+		logger.debug("updateAnswer - 호출");
+		logger.debug("" + answer);
+
+		if (answerService.updateAnswer(answer)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+
+	@ApiOperation(value = "글번호에 해당하는 답글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("{no}")
+	public ResponseEntity<String> deleteAnswer(@PathVariable int no) {
+		logger.debug("deleteAnswer - 호출");
+		if (answerService.deleteAnswer(no)) {
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+		}
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+}
+```
+
 
 # 기본(필수) 기능
 - QnA 게시글 목록 서비스
-[1](./happyhouse/github/1.png)
-[2](./happyhouse/github/2.png)
+![1](./happyhouse/github/1.png)
+![2](./happyhouse/github/2.png)
+![4](./happyhouse/github/4.png)
 ```javascript
 <template>
   <div
@@ -191,7 +383,94 @@ p {
 ```
 
 - 메뉴에 QnA 게시판 추가
-[1](./happyhouse/github/1.png)
+
+![3](./happyhouse/github/3.png)
+![3](./happyhouse/github/5.png)
+```javascript
+<template>
+  <div class="page-header clear-filter" filter-color="blue">
+    <div
+      class="page-header-image"
+      style="background-image: url('img/header.jpg')"
+    ></div>
+    <div class="content">
+      <div class="container">
+        <div class="col-md-5 ml-auto mr-auto">
+          <card type="login" plain>
+            <div slot="header" class="logo-container">
+              <h3>문의하기</h3>
+            </div>
+
+            <fg-input
+              type="text"
+              class="input-lg"
+              placeholder="TITLE"
+              v-model="question.title"
+            />
+            <fg-input
+              v-model="question.content"
+              type="text"
+              class="input-lg"
+              placeholder="input content..."
+            />
+
+            <template slot="raw-content">
+              <div class="card-footer text-center">
+                <a
+                  @click="insertQuestion()"
+                  class="btn btn-primary btn-round btn-lg btn-block"
+                  >등록</a
+                >
+              </div>
+            </template>
+          </card>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import axios from "axios";
+import { Checkbox, Card, Button, FormGroupInput } from "@/components";
+
+export default {
+  name: "qna-form-page",
+  bodyClass: "login-page",
+  components: {
+    Card,
+    [Checkbox.name]: Checkbox,
+    [Button.name]: Button,
+    [FormGroupInput.name]: FormGroupInput,
+  },
+  data() {
+    return {
+      question: {
+        title: "",
+        content: "",
+        writer: "ssafy",
+        state: "답변대기",
+      },
+    };
+  },
+  methods: {
+    insertQuestion() {
+      axios
+        .post("http://localhost:9999/api/question", this.question)
+        .then((resp) => {
+          if (resp["data"] == "success") {
+            alert("추가 완료");
+            this.$router.push({ name: "question" });
+          } else {
+            alert("추가 실패");
+          }
+        });
+    },
+  },
+};
+</script>
+<style></style>
+
+```
 
 
 # 뉴스기사 크롤링
@@ -200,7 +479,7 @@ p {
 
 
 # 트러블 슈팅 정리
-### 비동기처리의 props 로 데이터를 받았을떄 자식 컴포넌트에 data 반영이 안되었던 이유
+### 비동기처리의 props 로 데이터를 받았을때 자식 컴포넌트에 data 반영이 안되었던 이유
 - 인스턴스 생성 순서는 부모 -> 자식, 마운팅 순서는 자식->부모 이기 때문에 비동기 통신으로 온 데이터를 자식컴포넌트에 보낼 경우 문제가 생길 수 있다.
 - 프로젝트에서 동작 순서
   - QnA 인스턴스가 생성되며 data는 우선 empty 한 값으로 props 가 넘어감
