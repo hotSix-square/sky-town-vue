@@ -79,14 +79,30 @@ export default {
   mounted() {
     const ctx = document.getElementById("planet-chart");
     new Chart(ctx, this.planetChartData);
+    var pm25 = new Array();
+    var pm10 = new Array();
+    var o3 = new Array();
+    var no2 = new Array();
+    this.dustInfo.forEach((element) => {
+      pm25.push(element.pm25);
+      pm10.push(element.pm10);
+      o3.push(element.o3);
+      no2.push(element.no2);
+    });
+    //값 넣어주기
+    this.planetChartData.data.datasets[0].data = pm25;
+    this.planetChartData.data.datasets[1].data = pm10;
+    this.planetChartData.data.datasets[2].data = o3;
+    this.planetChartData.data.datasets[3].data = no2;
+    console.log(this.planetChartData.data.datasets);
   },
-  props:{
-      dustInfo: {
-          type: Array,
-          default: function () {
-            return { message: 'hello' }
-          }
-      }
+  props: {
+    dustInfo: {
+      type: Array,
+      default: function () {
+        return { message: "hello" };
+      },
+    },
   },
 };
 </script>

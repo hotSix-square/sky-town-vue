@@ -10,9 +10,7 @@
     <div class="section">
       <div class="container">
         <div id="app">
-          <LineChart 
-            v-bind:dustInfo = "infos"
-          />
+          <LineChart v-if="infos !== null" v-bind:dustInfo="infos" />
         </div>
       </div>
     </div>
@@ -28,18 +26,17 @@ export default {
   components: {
     LineChart,
   },
-  data(){
-    return{
-      infos: [],
+  data() {
+    return {
+      infos: null,
     };
   },
-  created(){
-    http.get(`/ajax/dustInfo`).then(({data}) => {
+  created() {
+    http.get(`/ajax/dustInfo`).then(({ data }) => {
       this.infos = data;
       console.log(this.infos);
-      console.log(typeof(this.infos));//object
+      console.log(typeof this.infos); //object
     });
-  }
-
+  },
 };
 </script>
