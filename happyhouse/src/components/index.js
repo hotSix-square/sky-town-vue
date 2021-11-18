@@ -6,7 +6,6 @@ import Switch from "./Switch.vue";
 import Badge from "./Badge";
 import Progress from "./Progress.vue";
 import Button from "./Button.vue";
-import KakaoMap from "./KakaoMap.vue";
 import DropDown from "./Dropdown.vue";
 
 import Card from "./Cards/Card.vue";
@@ -46,5 +45,4 @@ export {
   Slider,
   Button,
   SimpleTable,
-  KakaoMap,
 };
