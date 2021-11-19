@@ -1,13 +1,14 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Index from "./pages/Index.vue";
-import Login from "./pages/Login.vue";
+// import Login from "./pages/Login.vue";
 import Register from "./pages/Register.vue";
 import House from "./pages/House.vue";
 import QnA from "./pages/QnA.vue";
 import CreateForm from "./pages/components/qna/CreateForm.vue";
 import News from "./pages/News.vue";
 import Dust from "./pages/Dust.vue";
+import Chat from "./pages/Chat.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
 
@@ -28,7 +29,7 @@ export default new Router({
     {
       path: "/login",
       name: "login",
-      components: { default: Login, header: MainNavbar },
+      components: { default: Chat, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
       },
