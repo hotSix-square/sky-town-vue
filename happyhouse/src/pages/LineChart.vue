@@ -31,30 +31,30 @@ export default {
           datasets: [
             {
               label: "미세먼지",
-              data: this.dustInfo.no2,
+              data: [],
               borderColor: "red",
               fill: false,
             },
             {
               label: "초미세먼지",
               data: [
-                1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000,
+  
               ],
               borderColor: "green",
               fill: false,
             },
             {
               label: "오존",
-              data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+              data: [],
               borderColor: "blue",
               fill: false,
             },
             {
               label: "이산화질소 농도",
               data: [
-                1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000,
+                
               ],
-              borderColor: "green",
+              borderColor: "yellow",
               fill: false,
             },
           ],
@@ -86,8 +86,8 @@ export default {
     this.dustInfo.forEach((element) => {
       pm25.push(element.pm25);
       pm10.push(element.pm10);
-      o3.push(element.o3);
-      no2.push(element.no2);
+      o3.push(element.o3*100);
+      no2.push(element.no2*1000);
     });
     //값 넣어주기
     this.planetChartData.data.datasets[0].data = pm25;
