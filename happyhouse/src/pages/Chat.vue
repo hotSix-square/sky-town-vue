@@ -100,6 +100,7 @@ export default {
       this.msg = "";
     },
     connect() {
+      console.log('connected!!');
       var socket = new SockJS("http://localhost:9999/ws");
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect({}, function (frame) {
