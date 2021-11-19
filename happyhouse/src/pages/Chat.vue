@@ -12,6 +12,7 @@
                 class="btn btn-default"
                 type="submit"
                 @click="connect"
+                
               >
                 연결
               </button>
@@ -111,8 +112,9 @@ export default {
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect({}, function (frame) {
         // this.setConnected(true);
-        this.connected = true;
-        this.message = "";
+
+        //this.connected = true;
+        //this.message = "";
         console.log("Connected: " + frame);
         this.stompClient.subscribe("/topic/public", function (message) {
           this.message.push("받은 메시지: " + message.body);
