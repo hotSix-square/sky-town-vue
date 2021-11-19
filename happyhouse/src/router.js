@@ -11,6 +11,7 @@ import Dust from "./pages/Dust.vue";
 import Chat from "./pages/Chat.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
+import Chat from "./pages/Chat.vue";
 
 Vue.use(Router);
 
@@ -87,6 +88,15 @@ export default new Router({
       path: "/dust",
       name: "dust",
       components: { default: Dust, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/chat",
+      name: "chat",
+      components: { default: Chat, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" },

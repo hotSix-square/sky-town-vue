@@ -10,6 +10,7 @@
     <div class="section">
       <div class="container">
         <div id="app">
+          <h3 class="title">서울시 실시간 미세먼지 현황</h3>
           <LineChart v-if="infos !== null" v-bind:dustInfo="infos" />
         </div>
       </div>
