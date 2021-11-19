@@ -78,7 +78,7 @@
 
 <script>
 import SockJS from "sockjs-client";
-import Stomp from "stompjs";
+import Stomp from "webstomp-client";
 
 export default {
   name: "chat-page",
@@ -107,8 +107,7 @@ export default {
     },
     connect() {
       var socket = new SockJS("http://localhost:9999/ws");
-      // this.stompClient = Stomp.over(socket);
-      this.stompClient = Stomp.overWS(socket);
+      this.stompClient = Stomp.over(socket);
       this.stompClient.connect({}, function (frame) {
         // this.setConnected(true);
         this.connected = true;

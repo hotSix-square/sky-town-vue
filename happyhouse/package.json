@@ -17,8 +17,6 @@
     "node-sass": "^4.14.1",
     "nouislider": "^14.6.0",
     "sockjs-client": "^1.5.1",
-    "stomp-websocket": "^2.3.4-next",
-    "stompjs": "^2.3.3",
     "vue": "^2.6.14",
     "vue-chartjs": "^3.5.1",
     "vue-grid-layout": "^2.3.12",
@@ -27,7 +25,8 @@
     "vue-router": "^3.2.0",
     "vue2-transitions": "^0.3.0",
     "vuetify": "^2.6.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "webstomp-client": "^1.2.6"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
