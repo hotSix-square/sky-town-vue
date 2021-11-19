@@ -103,7 +103,6 @@ export default {
         // this.setConnected(true);
         // this.connected = true;
         this.isConnect = true;
-        this.msg = "";
         console.log("Connected: " + frame);
         this.stompClient.subscribe("/topic/public", (message) => {
           this.message.push("받은 메시지: " + message.body);
@@ -118,14 +117,13 @@ export default {
       // this.setConnected(false);
       // this.connected = false;
       this.isConnect = false;
-      this.msg = "";
       console.log("Disconnected");
     },
     sendMessage() {
       //   let message = $("#msg").val();
       //   this.showMessage("보낸 메시지: " + this.msg);
       this.message.push("보낸 메시지: " + this.msg);
-
+      this.msg = "";
       this.stompClient.send("/sendMessage", {}, JSON.stringify(this.msg)); //서버에 보낼 메시지
     },
     // showMessage(message) {
