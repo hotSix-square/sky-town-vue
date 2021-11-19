@@ -11,7 +11,6 @@ import Dust from "./pages/Dust.vue";
 import Chat from "./pages/Chat.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
-import Chat from "./pages/Chat.vue";
 
 Vue.use(Router);
 
