@@ -7,8 +7,7 @@
             <div class="form-group">
               <label for="connect">웹소켓 연결:</label>
               <button
-                v-show="connected"
-                id="connect"
+                v-show="isConnect"
                 class="btn btn-default"
                 type="submit"
                 @click="connect"
@@ -17,11 +16,9 @@
                 연결
               </button>
               <button
-                v-show="!connected"
-                id="disconnect"
+                v-show="!isConnect"
                 class="btn btn-default"
                 type="submit"
-                disabled="disabled"
                 @click="disconnect"
               >
                 해제
@@ -41,10 +38,8 @@
               />
             </div>
             <button
-              v-show="!connected"
-              id="send"
+              v-show="!isConnect"
               class="btn btn-default"
-              disabled
               type="submit"
               @click="sendMessage"
             >
@@ -55,17 +50,13 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <table
-            id="conversation"
-            class="table table-striped"
-            v-show="connected"
-          >
+          <table class="table table-striped" v-show="isConnect">
             <thead>
               <tr>
                 <th>메세지</th>
               </tr>
             </thead>
-            <tbody id="communicate">
+            <tbody>
               <tr v-for="(msg, index) in message" :key="index">
                 <td>{{ msg }}</td>
               </tr>
@@ -86,37 +77,37 @@ export default {
   components: {},
   data() {
     return {
-      stompClient: null,
+      // stompClient: null,
       message: [],
       msg: "",
-      connected: true,
+      isConnect: true,
     };
   },
   methods: {
-    setConnected(connected) {
-      //   $("#connect").prop("disabled", connected);
-      //   $("#disconnect").prop("disabled", !connected);
-      //   $("#send").prop("disabled", !connected);
-      this.connected = connected;
-      //   if (connected) {
-      //     $("#conversation").show();
-      //   } else {
-      //     $("#conversation").hide();
-      //   }
-      //   $("#msg").html("");
-      this.msg = "";
-    },
+    // setConnected(connected) {
+    //   //   $("#connect").prop("disabled", connected);
+    //   //   $("#disconnect").prop("disabled", !connected);
+    //   //   $("#send").prop("disabled", !connected);
+    //   this.connected = connected;
+    //   //   if (connected) {
+    //   //     $("#conversation").show();
+    //   //   } else {
+    //   //     $("#conversation").hide();
+    //   //   }
+    //   //   $("#msg").html("");
+    //   this.msg = "";
+    // },
     connect() {
       console.log('connected!!');
       var socket = new SockJS("http://localhost:9999/ws");
       this.stompClient = Stomp.over(socket);
-      this.stompClient.connect({}, function (frame) {
+      this.stompClient.connect({}, (frame) => {
         // this.setConnected(true);
-
-        //this.connected = true;
-        //this.message = "";
+        // this.connected = true;
+        this.isConnect = true;
+        this.msg = "";
         console.log("Connected: " + frame);
-        this.stompClient.subscribe("/topic/public", function (message) {
+        this.stompClient.subscribe("/topic/public", (message) => {
           this.message.push("받은 메시지: " + message.body);
           //   this.showMessage("받은 메시지: " + message.body); //서버에 메시지 전달 후 리턴받는 메시지
         });
@@ -127,8 +118,9 @@ export default {
         this.stompClient.disconnect();
       }
       // this.setConnected(false);
-      this.connected = false;
-      this.message = "";
+      // this.connected = false;
+      this.isConnect = false;
+      this.msg = "";
       console.log("Disconnected");
     },
     sendMessage() {
