@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Index from "./pages/Index.vue";
-// import Login from "./pages/Login.vue";
+import Login from "./pages/Login.vue";
 import Register from "./pages/Register.vue";
 import House from "./pages/House.vue";
 import QnA from "./pages/QnA.vue";
@@ -30,7 +30,7 @@ export default new Router({
     {
       path: "/login",
       name: "login",
-      components: { default: Chat, header: MainNavbar },
+      components: { default: Login, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400 },
       },
