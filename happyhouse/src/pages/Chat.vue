@@ -1,5 +1,5 @@
 <template>
-  <div class="section">
+  <div class="section-bot">
     <div id="main-content" class="container">
       <div class="row">
         <div class="col-md-6">
@@ -10,33 +10,33 @@
                 v-show="isConnect"
                 class="btn btn-default"
                 type="submit"
-                @click="connect"
-                
-              >
-                연결
+                @click="connect">
+                Bot이랑 대화하기
               </button>
-              <button
+              <!-- <button
                 v-show="!isConnect"
                 class="btn btn-default"
                 type="submit"
                 @click="disconnect"
               >
                 해제
-              </button>
+              </button> -->
             </div>
           </form>
         </div>
         <div class="col-md-6">
           <form class="form-inline" @submit.prevent>
-            <div class="form-group">
-              <label for="msg">문의사항</label>
+            <!-- <div class="form-group"> -->
+              <!-- <label for="msg">문의사항</label> -->
+              
               <input
                 type="text"
                 v-model="msg"
                 class="form-control"
                 placeholder="내용을 입력하세요...."
               />
-            </div>
+             
+            <!-- </div> -->
             <button
               v-show="!isConnect"
               class="btn btn-default"
@@ -68,6 +68,7 @@
   </div>
 </template>
 
+
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
@@ -98,7 +99,6 @@ export default {
     //   this.msg = "";
     // },
     connect() {
-      console.log('connected!!');
       var socket = new SockJS("http://localhost:9999/ws");
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect({}, (frame) => {
@@ -106,8 +106,10 @@ export default {
         // this.connected = true;
         this.isConnect = true;
         console.log("Connected: " + frame);
+
+
         this.stompClient.subscribe("/topic/public", (message) => {
-          this.message.push("받은 메시지: " + message.body);
+          this.message.push("봇: " + message.body);
           //   this.showMessage("받은 메시지: " + message.body); //서버에 메시지 전달 후 리턴받는 메시지
         });
       });
@@ -124,9 +126,10 @@ export default {
     sendMessage() {
       //   let message = $("#msg").val();
       //   this.showMessage("보낸 메시지: " + this.msg);
-      this.message.push("보낸 메시지: " + this.msg);
+      this.message.push("나: " + this.msg);
+      this.stompClient.send("/sendMessage", JSON.stringify(this.msg),{}); //서버에 보낼 메시지
+      console.log(JSON.stringify(this.msg))
       this.msg = "";
-      this.stompClient.send("/sendMessage", {}, JSON.stringify(this.msg)); //서버에 보낼 메시지
     },
     // showMessage(message) {
     //   $("#communicate").append("<tr><td>" + message + "</td></tr>");
@@ -135,4 +138,16 @@ export default {
 };
 </script>
 
-<style></style>
+
+<style>
+.section-bot{
+  border-width : 10px;
+  border-style : solid;
+  border-color : #0291fb;
+  background-color: #ffffff;
+}
+
+.form-control{
+  text-align: center; /* Quirks Mode 를 위한 가운데 정렬 */
+}
+</style>

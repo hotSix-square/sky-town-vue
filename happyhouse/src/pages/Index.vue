@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="Index">
     <div class="page-header clear-filter" filter-color="blue">
       <parallax
         class="page-header-image"
@@ -16,9 +16,23 @@
             @click="$router.push({ name: 'house' })"
             >Find House</n-button
           >
+          <p>
+
+          <img :src="cutty" alt="챗봇" @click="handle_toggle()" width="100" height="100">
+
+          <!-- <n-button type="primary" size="lg" @click="handle_toggle"
+            >ChatBot</n-button
+          > -->
+
+          <div v-show="is_show">
+            <Chat />
+    
+            <!-- <button @click="handle_toggle" type="button">닫기</button> -->
+          </div>
         </div>
       </div>
     </div>
+
     <div class="section section-team text-center">
       <div class="container">
         <h2 class="title">Here is our team</h2>
@@ -129,9 +143,12 @@ import NucleoIconsSection from "./components/NucleoIconsSection";
 import SignupForm from "./components/SignupForm";
 import ExamplesSection from "./components/ExamplesSection";
 import DownloadSection from "./components/DownloadSection";
+import Chat from "./Chat.vue";
+// import SockJS from "sockjs-client";
+// import Stomp from "webstomp-client";
 
 export default {
-  name: "index",
+  name: "Index",
   bodyClass: "index-page",
   components: {
     Parallax,
@@ -148,7 +165,37 @@ export default {
     SignupForm,
     ExamplesSection,
     DownloadSection,
+    Chat,
+  },
+  data() {
+    return {
+      is_show: false,
+      cutty: require('../assets/img/chatbot.png')
+    };
+  },
+  methods: {
+    handle_toggle() {
+      this.is_show = !this.is_show;
+    },
+    // connect() {
+    //   var socket = new SockJS("http://localhost:9999/ws");
+    //   this.stompClient = Stomp.over(socket);
+    //   this.stompClient.connect({}, (frame) => {
+    //     // this.setConnected(true);
+    //     // this.connected = true;
+    //     this.isConnect = true;
+    //     console.log("Connected: " + frame);
+
+        
+    //     this.stompClient.subscribe("/topic/public", (message) => {
+    //       this.message.push("받은 메시지: " + message.body);
+    //       //   this.showMessage("받은 메시지: " + message.body); //서버에 메시지 전달 후 리턴받는 메시지
+    //     });
+    //   });
+    // },
   },
 };
 </script>
-<style></style>
+<style>
+
+</style>

@@ -1,73 +1,23 @@
-<template>
-  <div class="page-header clear-filter" filter-color="blue">
-    <div
-      class="page-header-image"
-      style="background-image: url('img/header.jpg')"
-    ></div>
-    <div class="content">
-      <div class="container">
-        <div class="col-md-5 ml-auto mr-auto">
-          <card type="login" plain>
-            <div slot="header" class="logo-container">
-              <h3>Welcome Back!</h3>
-            </div>
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
 
-            <fg-input type="text" class="input-lg" placeholder="ID" />
-            <fg-input type="password" class="input-lg" placeholder="PASSWORD" />
-            <n-checkbox v-model="checked" class="input-lg"
-              >Remember Me</n-checkbox
-            >
+    <!-- naver -->
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+		<!-- // naver -->
 
-            <template slot="raw-content">
-              <div class="card-footer text-center">
-                <a
-                  href="#pablo"
-                  class="btn btn-primary btn-round btn-lg btn-block"
-                  >Login</a
-                >
-              </div>
-              <div>
-                <h6>
-                  <router-link
-                    :to="{ name: 'register' }"
-                    class="link footer-link"
-                    >Create Account!</router-link
-                  >
-                </h6>
-              </div>
-              <div>
-                <h6>
-                  <router-link
-                    :to="{ name: 'findPassword' }"
-                    class="link footer-link"
-                    >Forgot Password?</router-link
-                  >
-                </h6>
-              </div>
-            </template>
-          </card>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-<script>
-import { Checkbox, Card, Button, FormGroupInput } from "@/components";
-
-export default {
-  name: "login-page",
-  bodyClass: "login-page",
-  components: {
-    Card,
-    [Checkbox.name]: Checkbox,
-    [Button.name]: Button,
-    [FormGroupInput.name]: FormGroupInput,
-  },
-  data() {
-    return {
-      checked: true,
-    };
-  },
-};
-</script>
-<style></style>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
