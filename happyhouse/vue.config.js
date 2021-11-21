@@ -10,4 +10,5 @@ module.exports = {
     __dirname,
     "C:\\SSAFY\\workspace\\work-vue\\pjt_daejeon_6th_class4_final_team04\\HappyhouseAPI\\src\\main\\resources\\static"
   ),
+  
 };

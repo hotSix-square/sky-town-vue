@@ -11,6 +11,7 @@ import Dust from "./pages/Dust.vue";
 import Chat from "./pages/Chat.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
+
 Vue.use(Router);
 
 export default new Router({
@@ -100,6 +101,16 @@ export default new Router({
         footer: { backgroundColor: "black" },
       },
     },
+    {
+      path: "/login",
+      name: "Login",
+      components: { default: Login, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" },
+      },
+    },
+    
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
