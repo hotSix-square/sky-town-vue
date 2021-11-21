@@ -21,7 +21,7 @@ export default new Router({
       name: "index",
       components: { default: Index, header: MainNavbar, footer: MainFooter },
       props: {
-        header: { colorOnScroll: 400 },
+        header: { colorOnScroll: 400, position: "fixed" },
         footer: { backgroundColor: "black" },
       },
     },
@@ -30,25 +30,24 @@ export default new Router({
       name: "login",
       components: { default: Login, header: MainNavbar },
       props: {
-        header: { colorOnScroll: 400 },
+        header: { colorOnScroll: 400, position: "fixed" },
       },
     },
     {
       path: "/register",
       name: "register",
-      components: { default: Register, header: MainNavbar, footer: MainFooter },
+      components: { default: Register, header: MainNavbar },
       props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" },
+        header: { colorOnScroll: 400, position: "fixed" },
       },
     },
     {
       path: "/house",
       name: "house",
-      components: { default: House, header: MainNavbar, footer: MainFooter },
+      components: { default: House, header: MainNavbar },
       props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" },
+        header: { colorOnScroll: 0, position: "relative" },
+        // footer: { backgroundColor: "black" },
       },
     },
     {
@@ -56,7 +55,7 @@ export default new Router({
       name: "question",
       components: { default: QnA, header: MainNavbar, footer: MainFooter },
       props: {
-        header: { colorOnScroll: 400 },
+        header: { colorOnScroll: 400, position: "fixed" },
         footer: { backgroundColor: "black" },
       },
     },
@@ -69,7 +68,7 @@ export default new Router({
         footer: MainFooter,
       },
       props: {
-        header: { colorOnScroll: 400 },
+        header: { colorOnScroll: 400, position: "fixed" },
         footer: { backgroundColor: "black" },
       },
     },
@@ -78,7 +77,7 @@ export default new Router({
       name: "news",
       components: { default: News, header: MainNavbar, footer: MainFooter },
       props: {
-        header: { colorOnScroll: 400 },
+        header: { colorOnScroll: 400, position: "fixed" },
         footer: { backgroundColor: "black" },
       },
     },
@@ -87,7 +86,7 @@ export default new Router({
       name: "dust",
       components: { default: Dust, header: MainNavbar, footer: MainFooter },
       props: {
-        header: { colorOnScroll: 400 },
+        header: { colorOnScroll: 400, position: "fixed" },
         footer: { backgroundColor: "black" },
       },
     },
@@ -96,7 +95,7 @@ export default new Router({
       name: "chat",
       components: { default: Chat, header: MainNavbar, footer: MainFooter },
       props: {
-        header: { colorOnScroll: 400 },
+        header: { colorOnScroll: 400, position: "fixed" },
         footer: { backgroundColor: "black" },
       },
     },

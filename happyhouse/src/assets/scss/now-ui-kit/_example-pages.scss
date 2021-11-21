@@ -283,3 +283,17 @@
     font-weight: normal;
   }
 }
+
+.container {
+  max-width: 100% !important;
+}
+
+.house-page {
+  #app {
+    height: 100vh;
+    overflow: hidden;
+    .wrapper {
+      height: 100%;
+    }
+  }
+}
