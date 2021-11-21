@@ -1,6 +1,6 @@
 <template>
   <navbar
-    position="fixed"
+    :position="position"
     type="primary"
     :transparent="transparent"
     :color-on-scroll="colorOnScroll"
@@ -46,6 +46,7 @@ export default {
   props: {
     transparent: Boolean,
     colorOnScroll: Number,
+    position: String,
   },
   components: {
     DropDown,

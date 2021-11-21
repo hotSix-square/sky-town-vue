@@ -1,23 +1,15 @@
 <template>
-  <div>
-    <div class="page-header clear-filter" filter-color="blue">
-      <parallax
-        class="page-header-image"
-        style="background-image: url('img/header.jpg')"
-      >
-      </parallax>
-      <div class="container">
-        <div class="content-center brand">
-          <h1>부동산</h1>
-        </div>
-      </div>
-    </div>
-    <div class="section">
-      <div class="container">
-        <h3 class="title">주택 정보 조회</h3>
-        <!-- 법정동 selecter start -->
-        <div class="text-center mb-2">
-          <div class="form-group">
+  <div class="main-flex">
+    <div class="container-flex">
+      <!-- map start -->
+      <div class="map-flex">
+        <div id="map" class="flex" style="width: 100%; height: 100%"></div>
+        <!-- 법정동 selector start -->
+        <div class="text-center mb-2 selector">
+          <div
+            class="form-group p-2"
+            style="background-color: white; border-radius: 5px"
+          >
             <select class="btn btn-primary" v-model="sido" @change="getGugun">
               <option value="">시도</option>
               <option value="0">선택</option>
@@ -64,12 +56,21 @@
             </drop-down>
           </div>
         </div>
-        <!-- 법정동 selecter end -->
-        <!-- 조회 테이블 start -->
-        <div class="row my-4">
-          <div class="col-lg-12">
-            <div class="container p-0">
-              <table class="table mt-2">
+      </div>
+      <!-- 법정동 selector end -->
+      <!-- map end -->
+      <!-- 조회 테이블 start -->
+      <div class="table-flex">
+        <div class="table-layer">
+          <div class="table-wrapper">
+            <div class="table-tab">
+              <div class="table-back">
+                <div class=""></div>
+              </div>
+              <div></div>
+            </div>
+            <div class="table-content">
+              <table class="table">
                 <colgroup>
                   <col width="100" />
                   <col width="200" />
@@ -91,57 +92,18 @@
                     <td>{{ index + 1 }}</td>
                     <td>{{ apt.aptName }}</td>
                     <td>
-                      {{
-                        apt.sidoName +
-                        " " +
-                        apt.gugunName +
-                        " " +
-                        apt.dongName +
-                        " " +
-                        apt.jibun
-                      }}
+                      {{ apt.aptAddr }}
                     </td>
                     <td>{{ apt.buildYear }}</td>
                     <td>{{ apt.recentPrice }}</td>
                   </tr>
                 </tbody>
               </table>
-              <select
-                class="btn btn-primary"
-                v-model="unit"
-                @change="getApt"
-                style="position: absolute"
-              >
-                <option value="5">5개씩 보기</option>
-                <option value="10">10개씩 보기</option>
-                <option value="15">15개씩 보기</option>
-                <option value="20">20개씩 보기</option>
-                <option value="40">40개씩 보기</option>
-                <option value="60">60개씩 보기</option>
-              </select>
-              <nav aria-label="Page navigation">
-                <ul
-                  class="
-                    pagination pagination-circle
-                    pg-blue
-                    justify-content-center
-                  "
-                  id="pagination"
-                >
-                  <li class="page-item"><a class="page-link">i</a></li>
-                </ul>
-              </nav>
             </div>
           </div>
-          <!-- map start -->
-          <div class="col-lg-12 my-3">
-            <div id="map" style="width: 100%; height: 40rem"></div>
-            <!-- <kakao-map :positions="aptlist" /> -->
-          </div>
-          <!-- map end -->
         </div>
-        <!-- 조회 table end -->
       </div>
+      <!-- 조회 table end -->
     </div>
   </div>
 </template>
@@ -169,7 +131,6 @@ export default {
       aptlist: null,
       start: 0,
       unit: 5,
-      price: 0,
       map: null,
       markers: [],
       infowindow: null,
@@ -276,7 +237,6 @@ export default {
             dong: this.dong,
             start: this.start,
             cnt: this.unit,
-            price: this.price,
           },
         })
         .then((resp) => {
@@ -314,4 +274,66 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.main-flex {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.container-flex {
+  flex: 1 1 0%;
+  display: flex;
+}
+.map-flex {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.table-flex {
+  flex: 0 0 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+.table-layer {
+  position: absolute;
+  inset: 0px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.table-wrapper {
+  position: absolute;
+  inset: 0px;
+  overflow: hidden;
+  flex: 1 1 0%;
+  max-width: 100%;
+}
+.table-tab {
+  align-items: center;
+  border-bottom-color: rgb(225, 225, 225);
+  border-bottom-width: 1px;
+  flex-direction: row;
+  height: 56px;
+  overflow: visible;
+  padding-right: 13px;
+}
+.table-content {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+}
+.selector {
+  position: absolute;
+  left: 20px;
+  top: 80px;
+  z-index: 1;
+}
+.selector select {
+  margin-top: 0;
+}
+</style>
