@@ -52,38 +52,32 @@ export default {
         .get("http://localhost:9999/map/gugun", {
           params: { sido: val.sidoCode },
         })
-        .then(
-          (resp) =>
-            async function search() {
-              await resp.data.forEach(
-                (gugun) =>
-                  async function search2() {
-                    await this.geocoder.addressSearch(
-                      val.sidoName + " " + gugun.gugunName,
-                      (result, status) => {
-                        // 정상적으로 검색이 완료됐으면
-                        console.log(val.sidoName + " " + gugun.gugunName);
-                        if (status === kakao.maps.services.Status.OK) {
-                          //   console.log(new kakao.maps.LatLng(result[0].y, result[0].x));
-                          gugun.latlng = new kakao.maps.LatLng(
-                            Number(result[0].y),
-                            Number(result[0].x)
-                          );
-                          //   this.datacnt++;
-                        }
-                      }
-                    );
-                  }
-              );
-              //   if (this.datacnt == resp.data.length) {
-              console.log(resp.data);
-              this.displayMarker("Gugun", resp.data);
-              this.gugunlist = resp.data;
-              //   } else {
-              // console.log(resp.data, this.datacnt);
-              //   }
-            }
-        );
+        .then((resp) => {
+          resp.data.forEach((gugun) => {
+            this.geocoder.addressSearch(
+              val.sidoName + " " + gugun.gugunName,
+              (result, status) => {
+                // 정상적으로 검색이 완료됐으면
+                console.log(val.sidoName + " " + gugun.gugunName);
+                if (status === kakao.maps.services.Status.OK) {
+                  //   console.log(new kakao.maps.LatLng(result[0].y, result[0].x));
+                  gugun.latlng = new kakao.maps.LatLng(
+                    Number(result[0].y),
+                    Number(result[0].x)
+                  );
+                  //   this.datacnt++;
+                }
+              }
+            );
+          });
+          //   if (this.datacnt == resp.data.length) {
+          console.log(resp.data);
+          this.displayMarker("Gugun", resp.data);
+          this.gugunlist = resp.data;
+          //   } else {
+          // console.log(resp.data, this.datacnt);
+          //   }
+        });
     },
     gugun(val) {
       console.log("gugun 바뀜!!!", val);
