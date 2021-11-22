@@ -4,6 +4,7 @@ import Index from "./pages/Index.vue";
 import Login from "./pages/Login.vue";
 import Register from "./pages/Register.vue";
 import House from "./pages/House.vue";
+import RHouse from "./pages/RHouse.vue";
 import QnA from "./pages/QnA.vue";
 import CreateForm from "./pages/components/qna/CreateForm.vue";
 import News from "./pages/News.vue";
@@ -11,6 +12,8 @@ import Dust from "./pages/Dust.vue";
 import Chat from "./pages/Chat.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
+import LoginOk from "./pages/LoginOk.vue";
+
 
 Vue.use(Router);
 
@@ -49,6 +52,15 @@ export default new Router({
       props: {
         header: { colorOnScroll: 0, position: "relative" },
         // footer: { backgroundColor: "black" },
+      },
+    },
+    {
+      path: "/recommendhouse",
+      name: "RHouse",
+      components: { default: RHouse, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400, position: "fixed" },
+        footer: { backgroundColor: "black" },
       },
     },
     {
@@ -101,12 +113,12 @@ export default new Router({
       },
     },
     {
-      path: "/login",
-      name: "Login",
-      components: { default: Login, header: MainNavbar, footer: MainFooter },
+      path: "/loginOk",
+      name: "LoginOk",
+      components: { default: LoginOk, header: MainNavbar, footer: MainFooter },
       props: {
-        header: { colorOnScroll: 400 },
-        footer: { backgroundColor: "black" },
+        header: { colorOnScroll: 400, position: "fixed" },
+        footer: { backgroundColor: "black"},
       },
     },
     

@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <template>
   <div class="page-header clear-filter" filter-color="blue">
     <div
@@ -24,6 +22,20 @@
                   href="#pablo"
                   class="btn btn-primary btn-round btn-lg btn-block"
                   >Login</a
+                >
+              </div>
+              <!-- <div class="card-footer text-center">
+                <a
+                  v-on:click="getData"
+                  class="btn btn-primary btn-round btn-lg btn-block"
+                  >네이버로그인</a
+                >
+              </div> -->
+              <div class="card-footer text-center">
+                <a
+                  href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=FssPbW4KG1cD9O8YXEhN&state=state&redirect_uri=http://localhost:9999/naver/callback"
+                  class="btn btn-primary btn-round btn-lg btn-block"
+                  >네이버로그인</a
                 >
               </div>
               <div>
@@ -53,6 +65,7 @@
 </template>
 <script>
 import { Checkbox, Card, Button, FormGroupInput } from "@/components";
+// import axios from 'axios';
 
 export default {
   name: "login-page",
@@ -66,9 +79,21 @@ export default {
   data() {
     return {
       checked: true,
+      infos: {},
     };
   },
+  methods: {
+  //   getData: function () {
+  //     axios
+  //       .get(
+  //         "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=FssPbW4KG1cD9O8YXEhN&state=state&redirect_uri=http://localhost:9999/naver/callback"
+  //       )
+  //       .then(({ data }) => {
+  //         this.infos = data
+  //         console.log(this.infos);
+  //       });
+  //   },
+   },
 };
 </script>
 <style></style>
->>>>>>> fad5d88481acdb4c13a3fe32acef089689845aa7
