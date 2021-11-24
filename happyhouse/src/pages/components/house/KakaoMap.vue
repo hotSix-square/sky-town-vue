@@ -12,6 +12,7 @@ export default {
   name: "KakaoMap",
   data() {
     return {
+      isFirst: true,
       sidolist_init: [],
       datacnt: 0,
       geocoder: null,
@@ -22,6 +23,7 @@ export default {
     };
   },
   mounted() {
+    this.sido = null;
     axios.get("http://localhost:9999/map/sido").then((resp) => {
       //   this.$store.commit("setSidoList", resp.data);
       this.sidolist_init = resp.data;
@@ -49,65 +51,91 @@ export default {
       this.gugun = null;
       this.dong = null;
       // 구군 좌표 가져오기
-      axios
-        .get("http://localhost:9999/map/gugun", {
-          params: { sido: val.code },
-        })
-        .then((resp) => {
-          resp.data.forEach((gugun) => {
-            var addr = val.name + " " + gugun.name;
-            this.findPlace(gugun, addr);
-            // console.log(gugun);
+      if (val.code != null) {
+        if (this.isFirst) {
+          this.isFirst = false;
+          this.$router.push({
+            name: "grpApt",
+            params: { code: val.code },
           });
-          console.log(resp.data);
-          setTimeout(() => {
-            this.gugunlist = resp.data;
-            this.displayCluster("Gugun", this.gugunlist);
-            // console.log("gugunlist", this.gugunlist);
-          }, 1000);
-        });
+        } else {
+          this.$router.replace({
+            name: "grpApt",
+            params: { code: val.code },
+          });
+        }
+        axios
+          .get("http://localhost:9999/map/gugun", {
+            params: { sido: val.code },
+          })
+          .then((resp) => {
+            resp.data.forEach((gugun) => {
+              var addr = val.name + " " + gugun.name;
+              this.findPlace(gugun, addr);
+              // console.log(gugun);
+            });
+            console.log(resp.data);
+            setTimeout(() => {
+              this.gugunlist = resp.data;
+              this.displayCluster("Gugun", this.gugunlist);
+              // console.log("gugunlist", this.gugunlist);
+            }, 1000);
+          });
+      }
     },
     gugun(val) {
       console.log("gugun 바뀜!!!", val);
       this.dong = null;
       // 동 좌표 가져오기
-      axios
-        .get("http://localhost:9999/map/dong", {
-          params: { gugun: val.code },
-        })
-        .then((resp) => {
-          resp.data.forEach((dong) => {
-            var addr = this.sido.name + " " + val.name + " " + dong.name;
-            this.findPlace(dong, addr);
-          });
-          setTimeout(() => {
-            this.donglist = resp.data;
-            this.displayCluster("Dong", resp.data);
-            // console.log("donglist", resp.data);
-          }, 1000);
+      if (val.code != null) {
+        this.$router.replace({
+          name: "grpApt",
+          params: { code: val.code },
         });
+        axios
+          .get("http://localhost:9999/map/dong", {
+            params: { gugun: val.code },
+          })
+          .then((resp) => {
+            resp.data.forEach((dong) => {
+              var addr = this.sido.name + " " + val.name + " " + dong.name;
+              this.findPlace(dong, addr);
+            });
+            setTimeout(() => {
+              this.donglist = resp.data;
+              this.displayCluster("Dong", resp.data);
+              // console.log("donglist", resp.data);
+            }, 1000);
+          });
+      }
     },
     dong(val) {
       console.log("dong 바뀜!!!!!", val);
       // 아파트 정보 + 좌표 가져오기
-      axios
-        .get("http://localhost:9999/map/apt", {
-          params: {
-            dong: val.code,
-          },
-        })
-        .then((resp) => {
-          //   this.aptlist = resp["data"];
-          console.log(resp.data);
-          resp.data.forEach((apt) => {
-            this.findPlace(apt, apt.aptAddr);
-          });
-          console.log("resp.data.length", resp.data.length);
-          setTimeout(() => {
-            this.aptlist = resp.data;
-            this.displayMarker("Apt", resp.data);
-          }, 300 * resp.data.length);
+      if (val.code != null) {
+        this.$router.replace({
+          name: "grpApt",
+          params: { code: val.code },
         });
+        axios
+          .get("http://localhost:9999/map/apt", {
+            params: {
+              dong: val.code,
+            },
+          })
+          .then((resp) => {
+            //   this.aptlist = resp["data"];
+            console.log(resp.data);
+            resp.data.forEach((apt) => {
+              this.findPlace(apt, apt.aptAddr);
+            });
+            console.log("resp.data.length", resp.data.length);
+            setTimeout(() => {
+              this.aptlist = resp.data;
+              this.displayMarker("Apt", resp.data);
+            }, 300 * resp.data.length);
+          });
+      }
     },
   },
   computed: {
@@ -164,35 +192,17 @@ export default {
     },
   },
   methods: {
-    // target node에 이벤트 핸들러를 등록하는 함수힙니다
-    addEventHandle(target, type, callback) {
-      if (target.addEventListener) {
-        target.addEventListener(type, callback);
-      } else {
-        target.attachEvent("on" + type, callback);
-      }
-    },
-    clickCluster(e) {
-      if (e.preventDefault) {
-        e.preventDefault();
-      } else {
-        e.returnValue = false;
-      }
+    clickCluster(type, overlay) {
+      console.log(overlay);
       // 클릭하면 화면 레벨 줄여주자!
       // 시도->구군->법정동->아파트 단지
-      var level = this.map.getLevel();
       // 클릭한 마커를 해당 요소의 데이터로 설정 - 시도/구군/법정동
-      //   this.$store.commit("set" + name, array[index]);
-      this.$router.push({
-        name: "grpApt",
-      });
-      console.log(level);
-      // 클릭한 위치를 중심으로 확대
+      this.$store.commit("set" + type, overlay);
+      // this.$router.push({
+      //   name: "grpApt",
+      // });
+      var position = new kakao.maps.LatLng(...overlay.latlng);
       this.map.setCenter(position);
-      this.map.setLevel(level - 3);
-      console.log(level - 3);
-      var position = e.getPosition();
-      console.log(position);
     },
     findPlace(object, addr) {
       this.geocoder.addressSearch(addr, (resp, status) => {
@@ -203,8 +213,8 @@ export default {
         }
       });
     },
-    displayCluster(name, array) {
-      console.log(array);
+    displayCluster(type, array) {
+      // console.log(array);
       if (this.markers.length > 0) {
         this.markers.forEach((marker) => marker.setMap(null));
       }
@@ -220,51 +230,54 @@ export default {
         return val + ary.amtAvg;
       }, 0);
       avg /= array.length;
-      console.log(avg);
+      // console.log(avg);
       var dev = array.reduce((val, ary) => {
         return val + Math.abs(avg - ary.amtAvg);
       }, 0);
       dev /= array.length;
-      console.log(dev);
+      // console.log(dev, typeof dev);
+      var standup = avg + dev,
+        standdown = avg - dev;
+      // console.log(standup, standdown);
       if (positions.length > 0) {
-        this.customOverlay = positions.map((position, index) => {
-          var size, zidx;
-          if (array[index].amtAvg > dev + avg) {
+        this.customOverlay = array.map((position) => {
+          var size;
+          // console.log(array[index].name, array[index].amtAvg);
+          if (position.amtAvg >= standup) {
             size = "rgba(255, 54, 54, 0.9)";
-            zidx = 5;
-          } else if (array[index].amtAvg < dev + avg) {
+          } else if (position.amtAvg <= standdown) {
             size = "rgba(2, 145, 251, 0.9)";
-            zidx = 0;
           } else {
             size = "rgba(255, 178, 54, 0.9)";
-            zidx = 3;
           }
 
           var content = document.createElement("div");
           content.className = "overlay";
-          content.style = "cursor: pointer; background-color:" + size;
+          content.style.cursor = "pointer";
+          content.style.backgroundColor = size;
           var name = document.createElement("div");
-          name.innerText = array[index].name;
+          name.className = "overlay-name";
+          name.innerText = position.name;
           var avg = document.createElement("div");
-          avg.innerText = array[index].amtAvg;
+          avg.innerText = position.amtAvg;
           content.appendChild(name);
           content.appendChild(avg);
 
           const customOverlay = new kakao.maps.CustomOverlay({
             map: this.map,
-            position: position,
+            position: new kakao.maps.LatLng(...position.latlng),
             content: content,
-            zIndex: zidx,
+            zIndex: position.amtAvg,
             // image: this.clusterImage[size],
             clickable: true,
           });
 
-          this.addEventHandle(content, "click", this.clickCluster);
-
+          content.onclick = () => {
+            // console.log("position", position);
+            this.clickCluster(type, position);
+          };
           return customOverlay;
         });
-
-        // this.customOverlay.setMap(this.map);
 
         const bounds = positions.reduce(
           (bounds, latlng) => bounds.extend(latlng),

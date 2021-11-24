@@ -63,7 +63,7 @@ export default new Router({
           components: { default: KakaoMap, side: AptTable },
         },
         {
-          path: "groupHouse",
+          path: ":code",
           name: "grpApt",
           components: {
             default: KakaoMap,

@@ -6,7 +6,7 @@
       <div class="table-wrapper table-content">
         <div class="table-icon">
           <div class="table-content" style="margin-left: 13px">
-            <div class="tab-back">
+            <div class="tab-back" @click="back">
               <div style="pointer-events: none" class="table-content">
                 <div class="icon-box table-content">
                   <div class="icon">
@@ -38,8 +38,10 @@
 
 <script>
 export default {
-  props: {
-    title: String,
+  data() {
+    return {
+      title: "",
+    };
   },
   computed: {
     sidolist() {
@@ -87,6 +89,25 @@ export default {
       set(val) {
         this.$store.commit("setDong", val);
       },
+    },
+  },
+  mounted() {
+    // console.log(this.$route.params.code);
+    var code = this.$route.params.code;
+    console.log(code.length);
+    // switch (code.length) {
+    //   case 2:
+    //     this.title = this.sido
+    //     break;
+    //   case 5:
+    //     break;
+    //   default:
+    //     break;
+    // }
+  },
+  methods: {
+    back() {
+      this.$router.go(-1);
     },
   },
 };
