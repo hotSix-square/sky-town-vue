@@ -16,17 +16,184 @@
               </div>
             </div>
           </div>
-          <div class="tab-title">{{ type.name }}</div>
+          <div class="tab-title">
+            <template v-if="sido != null">
+              {{ sido.name }}
+            </template>
+            <template v-if="gugun != null">
+              {{ gugun.name }}
+            </template>
+            <template v-if="dong != null">
+              {{ dong.name }}
+            </template>
+            <!-- {{ sido.name + " " + gugun.name + " " + dong.name }} -->
+          </div>
+          <div
+            class="table-content"
+            style="height: 11px; background-color: rgb(238, 238, 238)"
+          ></div>
         </div>
-      </div>
 
-      <!-- 리스트 상세 내용 -->
-      <div class="table-content">
-        <div class="content-detail">
-          <div class="table-content">
-            <div class="table-content"></div>
-            <div class="table-content"></div>
-            <div class="table-content" style="flex: 1 1 auto"></div>
+        <!-- 리스트 상세 내용 -->
+        <div class="table-content" style="flex: 1 1 0%">
+          <div class="content-detail table-content">
+            <!-- 제목, 단지 수, 세대 수 => 기본 정보 -->
+            <div class="table-content">
+              <div
+                class="table-content"
+                style="background-color: rgb(255, 255, 255); flex-basis: auto"
+              >
+                <div class="table-content detail-child">
+                  <div class="title-box table-content">
+                    <div class="table-content pm-set">
+                      <div class="table-content title-div">
+                        <div class="title table-content">
+                          {{ type.name }}
+                        </div>
+                        <div
+                          class="table-content row-fd"
+                          style="margin-left: 5px"
+                        ></div>
+                      </div>
+                      <div
+                        class="table-content"
+                        style="
+                          align-items: flex-start;
+                          flex-direction: row;
+                          overflow: visible;
+                        "
+                      >
+                        <div class="table-content detail-data">
+                          <div class="detail-text">
+                            {{ type.totalCnt }} 단지 | {{ type.aptCnt }} 세대
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="table-content"
+                style="height: 11px; background-color: rgb(238, 238, 238)"
+              ></div>
+            </div>
+            <div
+              class="table-content"
+              style="background-color: rgb(255, 255, 255); flex-basis: auto"
+            >
+              <div class="table-content avg-box">
+                <div class="table-content avg">
+                  <div class="table-content avg-text">
+                    <div class="avg-text-css">
+                      약 {{ changeUnit(type.amtAvg) }} |
+                      {{ changeUnit(type.areaAvg) }}/m2당
+                    </div>
+                  </div>
+                </div>
+                <div class="table-content min-max">
+                  <div>그룹의 최소~최대값을 나타내는 장소입니당~!~!</div>
+                </div>
+              </div>
+              <div
+                class="table-content"
+                style="height: 11px; background-color: rgb(238, 238, 238)"
+              ></div>
+            </div>
+            <div class="table-content" style="flex: 1 1 auto">
+              <div
+                class="table-content"
+                style="flex-basis: auto; background-color: rgb(255, 255, 255)"
+              >
+                <div
+                  class="table-content aptlist-title"
+                  style="background-color: rgb(255, 255, 255)"
+                >
+                  <div class="table-content aptlist-title-text">
+                    <div
+                      class="table-content"
+                      style="
+                        flex-direction: row;
+                        align-items: center;
+                        overflow: visible;
+                      "
+                    >
+                      <div class="table-content list-text-title">
+                        평당가 낮은 순
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-content plus-btn">
+                    <div class="table-content plus-align-center">
+                      <i class="now-ui-icons ui-1_simple-add"></i>
+                    </div>
+                  </div>
+                  <div
+                    class="table-content"
+                    style="
+                      background-color: rgba(0, 0, 0, 0);
+                      inset: 0px;
+                      position: absolute;
+                    "
+                  ></div>
+                </div>
+                <div
+                  class="table-content"
+                  style="background-color: rgba(0, 0, 0, 0)"
+                >
+                  <div
+                    class="table-content"
+                    style="background-color: rgb(238, 238, 238); height: 1px"
+                  ></div>
+                </div>
+                <!-- for문 시작 -->
+                <div
+                  class="table-content"
+                  v-for="(apt, index) in aptlist"
+                  :key="index"
+                  @click="
+                    $router.push({
+                      name: 'apt',
+                      params: { code: apt.aptCode },
+                    })
+                  "
+                >
+                  <div
+                    class="table-content"
+                    style="background-color: rgb(255, 255, 255)"
+                  >
+                    <div class="table-content list-content">
+                      <div
+                        class="table-content"
+                        style="
+                          justify-content: center;
+                          flex-direction: column;
+                          flex: 1 1 0%;
+                        "
+                      >
+                        <div
+                          class="apt-name"
+                          style="
+                            font-size: 16px;
+                            line-height: 21px;
+                            margin-top: 0;
+                            font-weight: bold;
+                          "
+                        >
+                          {{ apt.aptName }}
+                        </div>
+                        <div class="apt-name">
+                          {{ apt.aptAvg }} | {{ apt.aptDongCnt }} 동
+                          {{ apt.aptdaCnt }} 세대
+                        </div>
+                        <div class="apt-name">{{ apt.aptAddr }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- for문 끝 -->
+              </div>
+            </div>
             <div class="table-content"></div>
           </div>
         </div>
@@ -48,8 +215,10 @@ export default {
           return this.sido;
         case 5:
           return this.gugun;
-        default:
+        case 8:
           return this.dong;
+        default:
+          return this.apt;
       }
     },
     sidolist() {
@@ -58,15 +227,18 @@ export default {
     gugunlist() {
       return this.$store.getters.getGugunList;
     },
-    donglist: {
-      get() {
-        return this.$store.getters.getDongList;
-      },
-      set(val) {
-        this.$store.commit("setDongList", val);
-      },
+    donglist() {
+      return this.$store.getters.getDongList;
     },
     aptlist: {
+      get() {
+        return this.$store.getters.getAptList;
+      },
+      set(val) {
+        this.$store.commit("setAptList", val);
+      },
+    },
+    apt: {
       get() {
         return this.$store.getters.getApt;
       },
@@ -103,22 +275,22 @@ export default {
   updated() {
     console.log("code##########", this.$route.params.code);
     var code = this.$route.params.code;
-    console.log(code.length);
-    // switch (code.length) {
-    //   case 2:
-    //     this.title = this.sido;
-    //     break;
-    //   case 5:
-    //     this.title = this.gugun;
-    //     break;
-    //   default:
-    //     this.title = this.dong;
-    //     break;
-    // }
+    console.log(code.length, typeof code.length);
   },
   methods: {
     back() {
       this.$router.go(-1);
+    },
+    changeUnit(data) {
+      var len = data.length;
+      var unit = "";
+      if (len >= 5) {
+        unit += data.substr(0, len - 4) + "억 ";
+      }
+      if (data.substr(len - 4, 1) != "0") {
+        unit += data.substr(len - 4, 1) + "천";
+      }
+      return unit;
     },
   },
 };

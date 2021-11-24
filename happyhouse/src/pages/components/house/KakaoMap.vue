@@ -69,15 +69,20 @@ export default {
             params: { sido: val.code },
           })
           .then((resp) => {
-            resp.data.forEach((gugun) => {
+            // console.log(resp.data);
+            resp.data.nextZoneList.forEach((gugun) => {
               var addr = val.name + " " + gugun.name;
               this.findPlace(gugun, addr);
               // console.log(gugun);
             });
-            console.log(resp.data);
+            // console.log(resp.data);
             setTimeout(() => {
-              this.gugunlist = resp.data;
+              this.gugunlist = resp.data.nextZoneList;
+              this.aptlist = resp.data.aptBasicList;
+              this.sido.aptCnt = Number(resp.data.aptCnt);
+              this.sido.totalCnt = Number(resp.data.totalCnt);
               this.displayCluster("Gugun", this.gugunlist);
+              console.log(this.sido);
               // console.log("gugunlist", this.gugunlist);
             }, 1000);
           });
@@ -97,14 +102,17 @@ export default {
             params: { gugun: val.code },
           })
           .then((resp) => {
-            resp.data.forEach((dong) => {
+            resp.data.nextZoneList.forEach((dong) => {
               var addr = this.sido.name + " " + val.name + " " + dong.name;
               this.findPlace(dong, addr);
             });
             setTimeout(() => {
-              this.donglist = resp.data;
-              this.displayCluster("Dong", resp.data);
-              // console.log("donglist", resp.data);
+              this.donglist = resp.data.nextZoneList;
+              this.aptlist = resp.data.aptBasicList;
+              this.gugun.aptCnt = Number(resp.data.aptCnt);
+              this.gugun.totalCnt = Number(resp.data.totalCnt);
+              this.displayCluster("Dong", resp.data.nextZoneList);
+              console.log("donglist", resp.data);
             }, 1000);
           });
       }
@@ -118,13 +126,12 @@ export default {
           params: { code: val.code },
         });
         axios
-          .get("http://localhost:9999/map/apt", {
+          .get("http://localhost:9999/map/list", {
             params: {
               dong: val.code,
             },
           })
           .then((resp) => {
-            //   this.aptlist = resp["data"];
             console.log(resp.data);
             resp.data.forEach((apt) => {
               this.findPlace(apt, apt.aptAddr);
@@ -132,7 +139,13 @@ export default {
             console.log("resp.data.length", resp.data.length);
             setTimeout(() => {
               this.aptlist = resp.data;
-              this.displayMarker("Apt", resp.data);
+              console.log(resp.data);
+              this.donglist = resp.data.nextZoneList;
+              this.aptlist = resp.data.aptBasicList;
+              // this.dong.aptBasicList = resp.data.aptBasicList;
+              this.dong.aptCnt = Number(resp.data.aptCnt);
+              this.dong.totalCnt = Number(resp.data.totalCnt);
+              this.displayMarker(resp.data);
             }, 300 * resp.data.length);
           });
       }
@@ -159,6 +172,14 @@ export default {
       },
     },
     aptlist: {
+      get() {
+        return this.$store.getters.getAptList;
+      },
+      set(val) {
+        this.$store.commit("setAptList", val);
+      },
+    },
+    apt: {
       get() {
         return this.$store.getters.getApt;
       },
@@ -192,29 +213,16 @@ export default {
     },
   },
   methods: {
-    clickCluster(type, overlay) {
-      console.log(overlay);
-      // 클릭하면 화면 레벨 줄여주자!
-      // 시도->구군->법정동->아파트 단지
-      // 클릭한 마커를 해당 요소의 데이터로 설정 - 시도/구군/법정동
-      this.$store.commit("set" + type, overlay);
-      // this.$router.push({
-      //   name: "grpApt",
-      // });
-      var position = new kakao.maps.LatLng(...overlay.latlng);
-      this.map.setCenter(position);
-    },
     findPlace(object, addr) {
       this.geocoder.addressSearch(addr, (resp, status) => {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
-          //   console.log(new kakao.maps.LatLng(result[0].y, result[0].x));
           object.latlng = new Array(Number(resp[0].y), Number(resp[0].x));
         }
       });
     },
     displayCluster(type, array) {
-      // console.log(array);
+      console.log(array);
       if (this.markers.length > 0) {
         this.markers.forEach((marker) => marker.setMap(null));
       }
@@ -227,15 +235,15 @@ export default {
         .map((position) => new kakao.maps.LatLng(...position));
 
       var avg = array.reduce((val, ary) => {
-        return val + ary.amtAvg;
+        return val + Number(ary.amtAvg);
       }, 0);
       avg /= array.length;
-      // console.log(avg);
+      console.log(avg);
       var dev = array.reduce((val, ary) => {
-        return val + Math.abs(avg - ary.amtAvg);
+        return val + Math.abs(avg - Number(ary.amtAvg));
       }, 0);
       dev /= array.length;
-      // console.log(dev, typeof dev);
+      console.log(dev, typeof dev);
       var standup = avg + dev,
         standdown = avg - dev;
       // console.log(standup, standdown);
@@ -251,6 +259,21 @@ export default {
             size = "rgba(255, 178, 54, 0.9)";
           }
 
+          // console.log(position.amtAvg, position.amtAvg.length);
+
+          var len = position.amtAvg.length;
+          var unit = "";
+          console.log(
+            position.amtAvg.substr(0, len - 4),
+            position.amtAvg.substr(len - 4, 1)
+          );
+          if (len >= 5) {
+            unit += position.amtAvg.substr(0, len - 4) + "억 ";
+          }
+          if (position.amtAvg.substr(len - 4, 1) != "0") {
+            unit += position.amtAvg.substr(len - 4, 1) + "천";
+          }
+
           var content = document.createElement("div");
           content.className = "overlay";
           content.style.cursor = "pointer";
@@ -259,7 +282,7 @@ export default {
           name.className = "overlay-name";
           name.innerText = position.name;
           var avg = document.createElement("div");
-          avg.innerText = position.amtAvg;
+          avg.innerText = unit;
           content.appendChild(name);
           content.appendChild(avg);
 
@@ -268,13 +291,11 @@ export default {
             position: new kakao.maps.LatLng(...position.latlng),
             content: content,
             zIndex: position.amtAvg,
-            // image: this.clusterImage[size],
             clickable: true,
           });
 
           content.onclick = () => {
-            // console.log("position", position);
-            this.clickCluster(type, position);
+            this.$store.commit("set" + type, position);
           };
           return customOverlay;
         });
@@ -287,10 +308,13 @@ export default {
         this.map.setBounds(bounds);
       }
     },
-    displayMarker(name, array) {
+    displayMarker(array) {
       //   console.log(name, array);
       if (this.markers.length > 0) {
         this.markers.forEach((marker) => marker.setMap(null));
+      }
+      if (this.customOverlay.length > 0) {
+        this.customOverlay.forEach((over) => over.setMap(null));
       }
 
       const positions = array
@@ -299,28 +323,26 @@ export default {
       //   console.log(positions);
 
       if (positions.length > 0) {
-        this.markers = positions.map((position, index) => {
+        this.markers = array.map((apt) => {
+          const pos = new kakao.maps.LatLng(...apt.latlng);
           const marker = new kakao.maps.Marker({
             map: this.map,
-            position: position,
+            position: pos,
             clickable: true,
           });
           kakao.maps.event.addListener(marker, "click", () => {
-            // 마커 클릭 이벤트 등록
-            // 클릭하면 화면 레벨 줄여주자!
-            // 시도->구군->법정동->아파트 단지
-            var level = this.map.getLevel();
-            // 클릭한 마커를 해당 요소의 데이터로 설정 - 시도/구군/법정동
-            this.$store.commit("set" + name, array[index]);
             this.$router.push({
-              name: "grpApt",
-              //   query: { code: array[index].code },
+              name: "apt",
+              params: { code: apt.aptCode },
             });
-            console.log(level);
-            // 클릭한 위치를 중심으로 확대
-            this.map.setCenter(position);
-            this.map.setLevel(level - 3);
-            console.log(level - 3);
+            // 마커 클릭 이벤트 등록
+            axios
+              .get("http://localhost:9999/apt/" + apt.aptCode)
+              .then((resp) => {
+                resp.data.latlng = pos;
+                this.$store.commit("setApt", resp.data); // 클릭한 아파트 정보 저장
+                console.log("apt 정보 저장", resp.data);
+              });
           });
           return marker;
         });
@@ -345,34 +367,6 @@ export default {
       // 주소-좌표 변환 객체를 생성합니다
       this.geocoder = new kakao.maps.services.Geocoder();
 
-      //   const clusterImageSrc =
-      //     "https://i1.daumcdn.net/localimg/localimages/07/mapjsapi/cluster.png";
-
-      //   const origins = [0, 90, 180, 270, 360],
-      //     size = [52, 56, 66, 78, 90];
-
-      //   for (var i = 0; i < 5; i++) {
-      //     var imageSize = new kakao.maps.Size(size[i], size[i]),
-      //       imageOptions = {
-      //         spriteOrigin: new kakao.maps.Point(0, origins[i]),
-      //         spriteSize: new kakao.maps.Size(90, 450),
-      //         shape: "circle",
-      //         offset: new kakao.maps.Point(size[i] / 2, size[i] / 2),
-      //       };
-
-      //     this.clusterImage.push(
-      //       new kakao.maps.MarkerImage(clusterImageSrc, imageSize, imageOptions)
-      //     );
-      //   }
-
-      // 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-      //   kakao.maps.event.addListener(this.map, "zoom_changed", () => {
-      //     // 지도의 현재 레벨을 얻어옵니다
-      //     var level = this.map.getLevel();
-      //     this.displayMarker(level);
-      //   });
-
-      //   this.datacnt = 0;
       this.sidolist_init.forEach((sido) => {
         // console.log(this.findPlace(sido.sidoName));
         this.geocoder.addressSearch(sido.name, (result, status) => {

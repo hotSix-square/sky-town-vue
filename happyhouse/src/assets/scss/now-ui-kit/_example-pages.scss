@@ -361,10 +361,6 @@
     align-items: stretch;
     border: 0 solid black;
     box-sizing: border-box;
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
     display: flex;
     flex-basis: auto;
     flex-direction: column;
@@ -442,7 +438,6 @@
     color: rgb(34, 34, 34);
     flex: 1 1 auto;
     flex-wrap: wrap;
-    font-family: SpoqaHanSans;
     font-size: 18px;
     font-weight: normal;
     line-height: 23px;
@@ -464,9 +459,6 @@
     height: 100%;
     overflow: hidden auto;
     transform: translateZ(0px);
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-box-flex: 1;
   }
 
   .overlay {
@@ -487,5 +479,193 @@
 
   .overlay-name {
     font-size: 1rem;
+  }
+
+  .row-fd {
+    flex-direction: row;
+  }
+
+  .title {
+    color: rgb(34, 34, 34);
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    font-family: SpoqaHanSans;
+    font-size: 23px;
+    font-weight: bold;
+    line-height: 30px;
+  }
+
+  .align-center {
+    align-items: center;
+  }
+  .justify-center {
+    justify-content: center;
+  }
+  .title-div {
+    flex-direction: row;
+    align-items: center;
+    overflow: visible;
+  }
+
+  .pm-set {
+    padding-right: 5px;
+    margin-right: -5px;
+    justify-content: center;
+    flex: 1 1 0%;
+    overflow: hidden;
+  }
+
+  .title-box {
+    padding-top: 12px;
+    padding-bottom: 15px;
+    flex-direction: row;
+    overflow: visible;
+    flex: 1 1 0%;
+  }
+
+  .detail-child {
+    background-color: rgb(255, 255, 255);
+    flex-direction: row;
+    padding-bottom: 0px;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .detail-data {
+    padding-top: 1px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    flex: 1 1 0%;
+  }
+  .detail-text {
+    color: rgb(117, 117, 117);
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    font-family: SpoqaHanSans;
+    font-size: 14px;
+    line-height: 18px;
+    display: inline;
+    border: 0 solid black;
+    box-sizing: border-box;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 14px;
+  }
+
+  .avg-box {
+    padding-top: 18px;
+    padding-bottom: 15px;
+    padding-right: 18px;
+    padding-left: 18px;
+    background-color: rgb(255, 255, 255);
+    flex-direction: column;
+  }
+  .avg {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    width: 100%;
+  }
+  .min-max {
+    flex-direction: column;
+    padding-top: 9px;
+  }
+  .avg-text {
+    align-items: flex-end;
+    flex-direction: row;
+  }
+  .avg-text-css {
+    color: rgb(45, 96, 163);
+    font-family: SpoqaHanSans;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 26px;
+    display: inline;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    border: 0 solid black;
+    box-sizing: border-box;
+  }
+
+  .aptlist-title {
+    min-height: 48px;
+    padding-right: 18px;
+    padding-left: 18px;
+    flex-direction: row;
+    cursor: pointer;
+    overflow: visible;
+  }
+
+  .aptlist-title-text {
+    padding-top: 13px;
+    padding-bottom: 14px;
+    padding-right: 9px;
+    margin-right: -9px;
+    justify-content: center;
+    flex-shrink: 1;
+    flex-grow: 1;
+    flex-direction: column;
+    flex-basis: auto;
+    overflow: visible;
+  }
+
+  .list-text-title {
+    color: rgb(34, 34, 34);
+    flex-shrink: 1;
+    font-family: SpoqaHanSans;
+    font-size: 18px;
+    line-height: 21px;
+  }
+
+  .plus-btn {
+    margin-left: 13px;
+    justify-content: center !important;
+    align-items: center;
+    overflow: visible;
+  }
+
+  .plus-align-center {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 18px;
+    flex: 0 0 auto;
+    flex-direction: row;
+    justify-content: center;
+    margin: -9px;
+    overflow: hidden;
+    padding: 9px;
+  }
+
+  .list-content {
+    cursor: pointer;
+    flex-direction: row;
+    justify-content: center;
+    min-height: 50px;
+    padding: 13px 18px !important;
+  }
+  .apt-name {
+    color: rgb(34, 34, 34);
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    font-size: 15px;
+    line-height: 20px;
+    margin-top: 4px;
+    text-align: left;
   }
 }

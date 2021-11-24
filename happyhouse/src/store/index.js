@@ -14,6 +14,7 @@ export default new Vuex.Store({
     sido: null,
     gugun: null,
     dong: null,
+    apt: null,
   },
   getters: {
     getSidoList(state) {
@@ -25,7 +26,7 @@ export default new Vuex.Store({
     getDongList(state) {
       return state.donglist;
     },
-    getApt(state) {
+    getAptList(state) {
       return state.aptlist;
     },
     getSido(state) {
@@ -36,6 +37,9 @@ export default new Vuex.Store({
     },
     getDong(state) {
       return state.dong;
+    },
+    getApt(state) {
+      return state.apt;
     },
   },
   mutations: {
@@ -48,6 +52,9 @@ export default new Vuex.Store({
     setDongList(state, payload) {
       state.donglist = payload;
     },
+    setAptList(state, payload) {
+      state.aptlist = payload;
+    },
     setSido(state, payload) {
       state.sido = payload;
     },
@@ -58,7 +65,7 @@ export default new Vuex.Store({
       state.dong = payload;
     },
     setApt(state, payload) {
-      state.aptlist = payload;
+      state.apt = payload;
     },
   },
   modules: {

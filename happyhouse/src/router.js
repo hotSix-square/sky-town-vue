@@ -58,7 +58,7 @@ export default new Router({
           components: { default: KakaoMap },
         },
         {
-          path: "findHouse",
+          path: ":code",
           name: "apt",
           components: { default: KakaoMap, side: AptTable },
         },
