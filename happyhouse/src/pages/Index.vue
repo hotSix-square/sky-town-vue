@@ -13,10 +13,10 @@
           <n-button
             type="primary"
             size="lg"
-            @click="$router.push({ name: 'house' })"
+            @click="$router.push({ name: 'map' })"
             >Find House</n-button
           >
-          
+
           <n-button
             type="primary"
             size="lg"
@@ -24,16 +24,22 @@
             >매물 추천받기</n-button
           >
           <p>
+            <img
+              :src="cutty"
+              alt="챗봇"
+              @click="handle_toggle()"
+              width="100"
+              height="100"
+            />
 
-          <img :src="cutty" alt="챗봇" @click="handle_toggle()" width="100" height="100">
-
-          <!-- <n-button type="primary" size="lg" @click="handle_toggle"
+            <!-- <n-button type="primary" size="lg" @click="handle_toggle"
             >ChatBot</n-button
           > -->
+          </p>
 
           <div v-show="is_show">
             <Chat />
-    
+
             <!-- <button @click="handle_toggle" type="button">닫기</button> -->
           </div>
         </div>
@@ -177,7 +183,7 @@ export default {
   data() {
     return {
       is_show: false,
-      cutty: require('../assets/img/chatbot.png')
+      cutty: require("../assets/img/chatbot.png"),
     };
   },
   methods: {
@@ -193,7 +199,6 @@ export default {
     //     this.isConnect = true;
     //     console.log("Connected: " + frame);
 
-        
     //     this.stompClient.subscribe("/topic/public", (message) => {
     //       this.message.push("받은 메시지: " + message.body);
     //       //   this.showMessage("받은 메시지: " + message.body); //서버에 메시지 전달 후 리턴받는 메시지
@@ -204,5 +209,4 @@ export default {
 };
 </script>
 <style>
-
 </style>

@@ -2,43 +2,33 @@
   <!-- 조회 테이블 start -->
   <div class="table-flex">
     <div class="table-layer">
-      <div class="table-wrapper">
-        <div class="table-tab">
-          <div class="table-back">
-            <div class=""></div>
+      <!-- 제목+ 뒤로 가기 -->
+      <div class="table-wrapper table-content">
+        <div class="table-icon">
+          <div class="table-content" style="margin-left: 13px">
+            <div class="tab-back">
+              <div style="pointer-events: none" class="table-content">
+                <div class="icon-box table-content">
+                  <div class="icon">
+                    <i class="now-ui-icons arrows-1_minimal-left icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div></div>
+          <div class="tab-title">{{ sido.name }}</div>
         </div>
-        <div class="table-content">
-          <table class="table">
-            <colgroup>
-              <col width="100" />
-              <col width="200" />
-              <col width="*" />
-              <col width="120" />
-              <col width="120" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>번호</th>
-                <th>아파트이름</th>
-                <th class="text-center">주소</th>
-                <th>건축연도</th>
-                <th>최근거래금액</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(apt, index) in aptlist" :key="apt.aptCode">
-                <td>{{ index + 1 }}</td>
-                <td>{{ apt.aptName }}</td>
-                <td>
-                  {{ apt.aptAddr }}
-                </td>
-                <td>{{ apt.buildYear }}</td>
-                <td>{{ apt.recentPrice }}</td>
-              </tr>
-            </tbody>
-          </table>
+      </div>
+
+      <!-- 리스트 상세 내용 -->
+      <div class="table-content">
+        <div class="content-detail">
+          <div class="table-content">
+            <div class="table-content"></div>
+            <div class="table-content"></div>
+            <div class="table-content" style="flex: 1 1 auto"></div>
+            <div class="table-content"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -48,6 +38,9 @@
 
 <script>
 export default {
+  props: {
+    title: String,
+  },
   computed: {
     sidolist() {
       return this.$store.getters.getSidoList;

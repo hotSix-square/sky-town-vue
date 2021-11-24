@@ -21,7 +21,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" :to="{ name: 'house' }">
+        <router-link class="nav-link" :to="{ name: 'map' }">
           <p>House</p>
         </router-link>
       </li>

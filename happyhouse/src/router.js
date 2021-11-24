@@ -13,7 +13,9 @@ import Chat from "./pages/Chat.vue";
 import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
 import LoginOk from "./pages/LoginOk.vue";
-
+import KakaoMap from "./pages/components/house/KakaoMap.vue";
+import AptTable from "./pages/components/house/AptTable.vue";
+import SideTab from "./pages/components/house/SideTab.vue";
 
 Vue.use(Router);
 
@@ -49,9 +51,29 @@ export default new Router({
       path: "/house",
       name: "house",
       components: { default: House, header: MainNavbar },
+      children: [
+        {
+          path: "",
+          name: "map",
+          components: { default: KakaoMap },
+        },
+        {
+          path: "findHouse",
+          name: "apt",
+          components: { default: KakaoMap, side: AptTable },
+        },
+        {
+          path: "groupHouse",
+          name: "grpApt",
+          components: {
+            default: KakaoMap,
+            side: SideTab,
+          },
+          props: (route) => ({ query: route.query.sidoName }),
+        },
+      ],
       props: {
         header: { colorOnScroll: 0, position: "relative" },
-        // footer: { backgroundColor: "black" },
       },
     },
     {
@@ -118,10 +140,9 @@ export default new Router({
       components: { default: LoginOk, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400, position: "fixed" },
-        footer: { backgroundColor: "black"},
+        footer: { backgroundColor: "black" },
       },
     },
-    
   ],
   scrollBehavior: (to) => {
     if (to.hash) {
