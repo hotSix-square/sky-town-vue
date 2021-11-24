@@ -17,9 +17,11 @@
           <card type="login" plain>
             <div slot="header" class="logo-container">
               <h3>Welcome!</h3>
+              <h3>성공적으로 로그인 되었습니다.</h3>
             </div>
-            <fg-input v-on:click="getUserInfo()" type="text" class="input-lg" placeholder="메인페이지로 돌아가기"/>
-          </card>
+            <fg-input @click="confirm()" type="text" class="input-lg" placeholder="메인페이지로 돌아가기"/>
+            <!-- <b-button type="button" variant="primary" class="m-1" @click="getUserInfo()">메인페이지로</b-button> -->
+            </card>
         </div>
       </div>
     </div>
@@ -28,7 +30,9 @@
 
 <script>
 import { Checkbox, Card, Button, FormGroupInput } from "@/components";
-import axios from 'axios';
+import { mapActions } from "vuex";
+const memberStore = "memberStore";
+// import axios from 'axios';
 export default {
   name: "loginok-page",
   bodyClass: "login-page",
@@ -45,14 +49,24 @@ export default {
     };
   },
   methods: {
-    getUserInfo: function () {
-      axios.get("http://localhost:9999/naver/getuserinfo").then(( data ) => {
-        this.infos = data;
-        console.log(this.infos);
-        //여기서 세션에 유저 정보 넣어주는 일 해야함
-        window.open("http://localhost:8080/", "_blank");    
-      });
+    // getUserInfo: function () {
+    //   axios.get("http://localhost:9999/naver/getuserinfo").then(( data ) => {
+    //     this.infos = data;
+    //     console.log(this.infos);
+    //     //여기서 세션에 유저 정보 넣어주는 일 해야함
+    //     window.open("http://localhost:8080/", "_blank");    
+    //   });
+    // },
+...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    async confirm() {
+      await this.userConfirm();
+      let token = sessionStorage.getItem("access-token");
+      console.log("그럼 여기 토큰은??"+token);
+      console.log('정상로그인???')
+      await this.getUserInfo(token);
+      this.$router.push({ name: "index" });
     },
+
   },
 };
 </script>

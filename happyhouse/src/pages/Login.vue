@@ -24,13 +24,6 @@
                   >Login</a
                 >
               </div>
-              <!-- <div class="card-footer text-center">
-                <a
-                  v-on:click="getData"
-                  class="btn btn-primary btn-round btn-lg btn-block"
-                  >네이버로그인</a
-                >
-              </div> -->
               <div class="card-footer text-center">
                 <a
                   href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=FssPbW4KG1cD9O8YXEhN&state=state&redirect_uri=http://localhost:9999/naver/callback"
@@ -38,6 +31,13 @@
                   >네이버로그인</a
                 >
               </div>
+              <!-- <b-button
+              type="button"
+              variant="primary"
+              class="m-1"
+              @click="confirm"
+              >네이버로그인</b-button
+            > -->
               <div>
                 <h6>
                   <router-link
@@ -65,7 +65,9 @@
 </template>
 <script>
 import { Checkbox, Card, Button, FormGroupInput } from "@/components";
-// import axios from 'axios';
+import { mapState, mapActions } from "vuex";
+
+const memberStore = "memberStore";
 
 export default {
   name: "login-page",
@@ -80,19 +82,28 @@ export default {
     return {
       checked: true,
       infos: {},
+      user: {
+        userid: null,
+        userpwd: null,
+      },
     };
   },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "isLoginError"]),
+  },
   methods: {
-  //   getData: function () {
-  //     axios
-  //       .get(
-  //         "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=FssPbW4KG1cD9O8YXEhN&state=state&redirect_uri=http://localhost:9999/naver/callback"
-  //       )
-  //       .then(({ data }) => {
-  //         this.infos = data
-  //         console.log(this.infos);
-  //       });
-  //   },
+ ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    async confirm() {
+      //await this.userConfirm(this.user);
+      //window.location.href = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=FssPbW4KG1cD9O8YXEhN&state=state&redirect_uri=http://localhost:9999/naver/callback";
+      
+      let token = sessionStorage.getItem("access-token");
+      if (this.isLogin) {
+        console.log("로그인 됫댜");
+        await this.getUserInfo(token);
+        this.$router.push({ name: "index" });
+      }
+    },
    },
 };
 </script>

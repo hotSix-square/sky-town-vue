@@ -175,14 +175,18 @@ export default {
       }
 
       if (array.length > 0) {
+        
         this.markers = array.map((ary) => {
+          
           const marker = new kakao.maps.Marker({
             map: this.map,
             // title: position.count,
             position: ary.latlng,
             clickable: true,
           });
+          console.log(ary);
           console.log(ary.count);
+          console.log(ary.latlng)
           kakao.maps.event.addListener(marker, "click", () => {
             // 마커 클릭 이벤트 등록
             // 클릭하면 화면 레벨 줄여주자!
@@ -190,7 +194,7 @@ export default {
             var level = this.map.getLevel();
             // 클릭한 마커를 해당 요소의 데이터로 설정 - 시도/구군/법정동
             this.$store.commit("set" + name, ary);
-            console.log(level);
+            console.log("level",level);
             // 클릭한 위치를 중심으로 확대
             this.map.setCenter(ary.latlng);
             this.map.setLevel(level - 3);

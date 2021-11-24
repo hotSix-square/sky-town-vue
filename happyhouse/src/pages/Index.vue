@@ -17,12 +17,12 @@
             >Find House</n-button
           >
           
-          <n-button
+          <!-- <n-button
             type="primary"
             size="lg"
-            @click="$router.push({ name: 'recommendhouse' })"
+            @click="$router.push({ name: 'RHouse' })"
             >매물 추천받기</n-button
-          >
+          > -->
           <p>
 
           <img :src="cutty" alt="챗봇" @click="handle_toggle()" width="100" height="100">
