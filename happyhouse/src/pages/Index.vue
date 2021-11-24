@@ -8,21 +8,20 @@
       </parallax>
       <div class="container">
         <div class="content-center brand">
-          <h3>Welcome To Our Site!</h3>
-          <h1 style="font-weight: bold">IT'S NICE TO MEET YOU</h1>
+          <h3>Welcome!</h3>
+          <h1 style="font-weight: bold">스카이 타운에 오신것을 환영합니다.</h1>
           <n-button
             type="primary"
             size="lg"
             @click="$router.push({ name: 'map' })"
             >Find House</n-button
           >
-
-          <n-button
+          <n-button v-if="userInfo"
             type="primary"
             size="lg"
             @click="$router.push({ name: 'RHouse' })"
             >매물 추천받기</n-button
-          > -->
+          >
           <p>
             <img
               :src="cutty"
@@ -159,9 +158,14 @@ import DownloadSection from "./components/DownloadSection";
 import Chat from "./Chat.vue";
 // import SockJS from "sockjs-client";
 // import Stomp from "webstomp-client";
+const memberStore = "memberStore";
+import { mapState } from "vuex";
 
 export default {
   name: "Index",
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+  },
   bodyClass: "index-page",
   components: {
     Parallax,

@@ -71,6 +71,7 @@ export default {
   name: "RHouse",
   data() {
     return {
+      message: null,
       is_show: false,
       infos: {},
       styleObject: {
@@ -93,8 +94,13 @@ export default {
   methods: {
     confirm() {
       // alert('이메일구독서비스를 신청 하시겠습니까?')
-      if (confirm("정말 삭제하시겠습니까??") == true) {
+      if (confirm("이메일 구독 서비스를 신청 하시겠습니까?") == true) {
         //axios 통신으로 서버에 이메일 요청 보냄
+        http.defaults.headers["useremail"] = this.userInfo;
+        http.post(`/email`).then(({ data }) => {
+          this.message = data;
+          console.log(this.message);
+        });
       } else {
         //취소
         return false;

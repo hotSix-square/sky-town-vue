@@ -4,7 +4,7 @@
     <b-carousel-slide
       :caption="title"
       :text="content"
-      img-src="https://picsum.photos/1024/480/?image=52"
+      img-src="https://picsum.photos/1024/480/?image=53"
     ></b-carousel-slide>
   </div>
 </template>

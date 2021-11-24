@@ -1,5 +1,5 @@
 <template>
-<navbar v-if="isLogin"
+<navbar v-if="userInfo"
     :position="position"
     type="primary"
     :transparent="transparent"
@@ -7,7 +7,7 @@
     menu-classes="ml-auto"
   >
     <template>
-      <router-link class="navbar-brand" to="/"> HappyHouse </router-link>
+      <router-link class="navbar-brand" to="/"> SKY TOWN </router-link>
     </template>
     <template slot="navbar-menu">
       <li class="nav-item">
@@ -59,7 +59,7 @@
     menu-classes="ml-auto"
   >
     <template>
-      <router-link class="navbar-brand" to="/"> HappyHouse </router-link>
+      <router-link class="navbar-brand" to="/"> SKY TOWN </router-link>
     </template>
     <template slot="navbar-menu">
       <li class="nav-item">
@@ -92,7 +92,7 @@
 
 <script>
 import { DropDown, Navbar, NavLink } from "@/components";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 const memberStore = "memberStore";
 
@@ -102,14 +102,15 @@ export default {
     ...mapState(memberStore, ["isLogin", "userInfo"]),
   },
   methods: {
-    ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
-    onClickLogout() {
-      this.SET_IS_LOGIN(false);
-      this.SET_USER_INFO(null);
-      sessionStorage.removeItem("access-token");
+    // ...mapMutations(memberStore, ["userLogoutConfirm","SET_IS_LOGIN", "SET_USER_INFO"]),
+    ...mapActions(memberStore, ["userLogoutConfirm"]),
+    async onClickLogout() {
+      await this.userLogoutConfirm();
+      // this.SET_IS_LOGIN(false);
+      // this.SET_USER_INFO(null);
+      // sessionStorage.removeItem("access-token");
       // if (this.$route.path != "/") this.$router.push({ name: "index" });
       this.$router.push({ name: "index" });
-      
     },
   },
   props: {
