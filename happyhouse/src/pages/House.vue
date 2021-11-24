@@ -3,8 +3,8 @@
     <div class="container-flex">
       <!-- map start -->
       <div class="map-flex">
-        <!-- <div id="map" class="flex" style="width: 100%; height: 100%"></div> -->
-        <kakao-map />
+        <!-- <kakao-map /> -->
+        <router-view />
         <!-- 법정동 selector start -->
         <div class="text-center mb-2 selector">
           <div
@@ -14,12 +14,8 @@
             <select class="btn btn-primary" v-model="sido">
               <option value="null">시도</option>
               <option value="0">선택</option>
-              <option
-                v-for="sido in sidolist"
-                :key="sido.sidoCode"
-                :value="sido"
-              >
-                {{ sido.sidoName }}
+              <option v-for="sido in sidolist" :key="sido.code" :value="sido">
+                {{ sido.name }}
               </option>
             </select>
             <select class="btn btn-primary" v-model="gugun">
@@ -27,21 +23,17 @@
               <option value="0">선택</option>
               <option
                 v-for="gugun in gugunlist"
-                :key="gugun.gugunCode"
+                :key="gugun.code"
                 :value="gugun"
               >
-                {{ gugun.gugunName }}
+                {{ gugun.name }}
               </option>
             </select>
             <select class="btn btn-primary" v-model="dong">
               <option value="null">읍면동</option>
               <option value="0">선택</option>
-              <option
-                v-for="dong in donglist"
-                :key="dong.dongCode"
-                :value="dong"
-              >
-                {{ dong.dongName }}
+              <option v-for="dong in donglist" :key="dong.code" :value="dong">
+                {{ dong.name }}
               </option>
             </select>
             <drop-down class="nav-item" title="주변 편의시절">
@@ -59,15 +51,15 @@
         </div>
       </div>
       <!-- 법정동 selector end -->
-      <apt-table />
+      <!-- <apt-table /> -->
+      <router-view name="side" />
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
 import { Checkbox, DropDown } from "@/components";
-import KakaoMap from "./components/house/KakaoMap.vue";
-import AptTable from "./components/house/AptTable.vue";
+// import KakaoMap from "./components/house/KakaoMap.vue";
+// import AptTable from "./components/house/AptTable.vue";
 
 export default {
   name: "house-page",
@@ -75,16 +67,13 @@ export default {
   components: {
     [Checkbox.name]: Checkbox,
     DropDown,
-    KakaoMap,
-    AptTable,
+    // KakaoMap,
+    // AptTable,
   },
   data() {
     return {
       category: [],
       checked: [],
-      aptlist: [],
-      start: 0,
-      unit: 5,
       datacnt: 0,
     };
   },
@@ -128,97 +117,8 @@ export default {
       },
     },
   },
-  methods: {
-    // getGugun() {
-    //   // this.$store.dispatch("asyncGugun");
-    //   this.donglist = [];
-    //   this.gugun = null;
-    //   this.dong = null;
-    //   // 지도 위치 조정
-    //   // const sido = this.sidolist.filters((sido) => sido.sidoCode == this.sido);
-    //   // console.log(sido);
-    //   // this.map.setCenter(position.latlng);
-    // },
-    // getDong() {
-    //   // this.$store.dispatch("asyncDong");
-    //   this.dong = null;
-    // },
-    getApt() {
-      axios
-        .get("http://localhost:9999/map/apt", {
-          params: {
-            dong: this.dong,
-            start: this.start,
-            cnt: this.unit,
-          },
-        })
-        .then((resp) => {
-          this.aptlist = resp["data"];
-        });
-    },
-  },
+  methods: {},
 };
 </script>
-<style scoped>
-.main-flex {
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
-.container-flex {
-  flex: 1 1 0%;
-  display: flex;
-}
-.map-flex {
-  flex: 1 1 0%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.table-flex {
-  flex: 0 0 20%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-}
-.table-layer {
-  position: absolute;
-  inset: 0px;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.table-wrapper {
-  position: absolute;
-  inset: 0px;
-  overflow: hidden;
-  flex: 1 1 0%;
-  max-width: 100%;
-}
-.table-tab {
-  align-items: center;
-  border-bottom-color: rgb(225, 225, 225);
-  border-bottom-width: 1px;
-  flex-direction: row;
-  height: 56px;
-  overflow: visible;
-  padding-right: 13px;
-}
-.table-content {
-  flex: 1 1 0%;
-  display: flex;
-  flex-direction: column;
-}
-.selector {
-  position: absolute;
-  left: 20px;
-  top: 80px;
-  z-index: 1;
-}
-.selector select {
-  margin-top: 0;
-}
+<style>
 </style>
