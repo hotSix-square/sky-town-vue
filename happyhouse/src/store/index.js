@@ -4,6 +4,7 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 import memberStore from "@/store/modules/memberStore.js";
+import spinnerStore from "@/store/modules/spinnerStore.js";
 
 export default new Vuex.Store({
   state: {
@@ -63,6 +64,7 @@ export default new Vuex.Store({
   },
   modules: {
     memberStore,
+    spinnerStore,
   },
   plugins: [
     createPersistedState({

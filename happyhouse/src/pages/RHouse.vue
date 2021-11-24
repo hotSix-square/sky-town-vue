@@ -3,11 +3,11 @@
     <div class="page-header clear-filter" filter-color="blue">
       <parallax
         class="page-header-image"
-        style="background-image: url('img/header.jpg')"
+        style="background-image: url('img/header3.png')"
       >
       </parallax>
     </div>
-
+    <spinner :loading="$store.state.LoadingStatus"/>
     <div>
       <b-jumbotron
         v-for="index in infos"
@@ -25,7 +25,7 @@
         </div>
         <div style="float: left; width: 50%; padding: 10px">
           <template
-            ><div class="title-font">{{ index.apt.aptName }}</div></template
+            ><div class="title-font" v-bind:[aptname]="index.apt.aptName">{{ index.apt.aptName }}</div></template
           >
           <template
             ><div class="star-font">별점: {{ index.score }}</div></template
@@ -45,7 +45,7 @@
         </div>
 
         <div style="font-size: 3rem">
-          <b-iconstack font-scale="1" @click="confirm()">
+          <b-iconstack font-scale="1" @click="confirm()" >
             <b-icon stacked icon="circle-fill" variant="info"></b-icon>
             <b-icon
               stacked
@@ -62,15 +62,29 @@
         <!-- <b-button variant="success" href="#">좋아요+</b-button> -->
       </b-jumbotron>
     </div>
+    <spinner :loading="$store.state.LoadingStatus"/>
   </div>
 </template>
 <script>
 import http from "@/util/http-common";
+import { mapState } from "vuex";
+import Spinner from '@/components/Spinner'
+
+const memberStore = "memberStore";
 
 export default {
   name: "RHouse",
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
+  components: {
+		Spinner,
+	},
   data() {
     return {
+      LoadingStatus: false,
+      isLoading:true,
+      aptname: null,
       message: null,
       is_show: false,
       infos: {},
@@ -94,10 +108,16 @@ export default {
   methods: {
     confirm() {
       // alert('이메일구독서비스를 신청 하시겠습니까?')
-      if (confirm("이메일 구독 서비스를 신청 하시겠습니까?") == true) {
+      if (confirm("이메일 정보수신 서비스를 신청 하시겠습니까?") == true) {
         //axios 통신으로 서버에 이메일 요청 보냄
-        http.defaults.headers["useremail"] = this.userInfo;
-        http.post(`/email`).then(({ data }) => {
+        // http.defaults.headers["useremail"] = this.userInfo;
+        console.log(this.infos[0].itemId);
+        http.get(`/email`,{
+          params: {
+      address: this.userInfo,
+      aptname: this.infos[0].itemId
+    }
+        }).then(({ data }) => {
           this.message = data;
           console.log(this.message);
         });

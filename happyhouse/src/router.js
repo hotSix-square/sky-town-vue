@@ -16,6 +16,9 @@ import LoginOk from "./pages/LoginOk.vue";
 import KakaoMap from "./pages/components/house/KakaoMap.vue";
 import AptTable from "./pages/components/house/AptTable.vue";
 import SideTab from "./pages/components/house/SideTab.vue";
+// import store from "./store/index"
+import store from "./store/modules/spinnerStore"
+
 
 Vue.use(Router);
 
@@ -150,5 +153,14 @@ export default new Router({
     } else {
       return { x: 0, y: 0 };
     }
+  },
+  beforeEach:(next) => {
+    store.commit('startSpinner');
+    setTimeout(() => {
+        next();
+    }, 3);
+  },
+  afterEach:() => {
+    store.commit('endSpinner');
   },
 });
