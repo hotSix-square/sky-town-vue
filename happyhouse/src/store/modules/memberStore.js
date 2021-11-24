@@ -1,5 +1,5 @@
 import jwt_decode from "jwt-decode";
-import { login } from "@/api/member.js";
+import { login, logout } from "@/api/member.js";
 import { findById } from "../../api/member";
 
 const memberStore = {
@@ -41,6 +41,17 @@ const memberStore = {
             commit("SET_IS_LOGIN", false);
             commit("SET_IS_LOGIN_ERROR", true);
           }
+        },
+        () => {}
+      );
+    },
+    async userLogoutConfirm({commit}){
+      await logout(
+        (response) => {
+          console.log(response);
+          sessionStorage.removeItem("access-token");
+          commit("SET_IS_LOGIN", false);
+          commit("SET_USER_INFO",null);
         },
         () => {}
       );
