@@ -16,7 +16,7 @@
               </div>
             </div>
           </div>
-          <div class="tab-title">{{ sido.name }}</div>
+          <div class="tab-title">{{ type.name }}</div>
         </div>
       </div>
 
@@ -39,11 +39,19 @@
 <script>
 export default {
   data() {
-    return {
-      title: "",
-    };
+    return {};
   },
   computed: {
+    type() {
+      switch (this.$route.params.code.length) {
+        case 2:
+          return this.sido;
+        case 5:
+          return this.gugun;
+        default:
+          return this.dong;
+      }
+    },
     sidolist() {
       return this.$store.getters.getSidoList;
     },
@@ -91,17 +99,20 @@ export default {
       },
     },
   },
-  mounted() {
-    // console.log(this.$route.params.code);
+  watch: {},
+  updated() {
+    console.log("code##########", this.$route.params.code);
     var code = this.$route.params.code;
     console.log(code.length);
     // switch (code.length) {
     //   case 2:
-    //     this.title = this.sido
+    //     this.title = this.sido;
     //     break;
     //   case 5:
+    //     this.title = this.gugun;
     //     break;
     //   default:
+    //     this.title = this.dong;
     //     break;
     // }
   },
