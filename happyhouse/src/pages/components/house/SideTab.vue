@@ -118,7 +118,7 @@
                       "
                     >
                       <div class="table-content list-text-title">
-                        평당가 낮은 순
+                        거래 많은 순
                       </div>
                     </div>
                   </div>
@@ -153,6 +153,7 @@
                   @click="routeApt(apt)"
                 >
                   <div
+                    v-show="isExistFacility(apt.aptInfo.welfareFacility)"
                     class="table-content"
                     style="background-color: rgb(255, 255, 255)"
                   >
@@ -203,6 +204,9 @@ import axios from "axios";
 export default {
   data() {
     return {};
+  },
+  props: {
+    checked: Array,
   },
   computed: {
     type() {
@@ -299,6 +303,21 @@ export default {
         this.$store.commit("setApt", resp.data); // 클릭한 아파트 정보 저장
         console.log("apt 정보 저장", resp.data);
       });
+    },
+    isExistFacility(data) {
+      console.log("편의시설 있는지 확인하자   ", data, this.checked);
+      if (data.length != 0 && this.checked.length != 0) {
+        var list = data.split(",");
+
+        this.checked.forEach((element) => {
+          var isExist = list.includes(element);
+          if (!isExist) {
+            return false;
+          }
+        });
+      } else {
+        return true;
+      }
     },
   },
 };

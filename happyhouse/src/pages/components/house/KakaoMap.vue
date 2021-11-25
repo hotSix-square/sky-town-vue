@@ -134,13 +134,15 @@ export default {
           })
           .then((resp) => {
             console.log(resp.data);
-            resp.data.forEach((apt) => {
-              this.findPlace(apt, apt.aptAddr);
+            resp.data.aptBasicList.forEach((data) => {
+              this.findPlace(data, data.aptAddr);
             });
-            console.log("resp.data.length", resp.data.length);
+            console.log("resp.data.length", resp.data.aptBasicList.length);
             setTimeout(() => {
-              this.aptlist = resp.data;
-              this.displayMarker(resp.data);
+              this.dong.totalCnt = Number(resp.data.totalCnt);
+              this.dong.aptCnt = Number(resp.data.aptCnt);
+              this.aptlist = resp.data.aptBasicList;
+              this.displayMarker(resp.data.aptBasicList);
             }, 300 * resp.data.length);
           });
       }

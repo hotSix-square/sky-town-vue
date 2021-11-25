@@ -37,14 +37,18 @@
               </option>
             </select>
             <drop-down class="nav-item" title="주변 편의시절">
-              <div v-for="(cat, index) in category" :key="index">
+              <div
+                v-for="(cat, index) in category"
+                :key="index"
+                style="padding: 0 1rem"
+              >
                 <input
                   type="checkbox"
-                  :id="cat.code"
-                  :value="cat.code"
+                  :id="cat"
+                  :value="cat"
                   v-model="checked"
                 />
-                <label :for="cat.code">{{ cat.name }}</label>
+                <label :for="cat" style="margin: 5.5px">{{ cat }}</label>
               </div>
             </drop-down>
           </div>
@@ -52,7 +56,7 @@
       </div>
       <!-- 법정동 selector end -->
       <!-- <apt-table /> -->
-      <router-view name="side" />
+      <router-view name="side" :checked="checked" />
     </div>
   </div>
 </template>
@@ -72,7 +76,18 @@ export default {
   },
   data() {
     return {
-      category: [],
+      category: [
+        "관리사무소",
+        "노인정",
+        "문고",
+        "보육시설",
+        "어린이놀이터",
+        "유치원",
+        "자전거보관소",
+        "주민공동시설",
+        "커뮤니티공간",
+        "휴게시설",
+      ],
       checked: [],
       datacnt: 0,
     };
@@ -121,4 +136,8 @@ export default {
 };
 </script>
 <style>
+.dropdown {
+  width: fit-content;
+  margin: auto;
+}
 </style>
