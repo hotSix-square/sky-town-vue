@@ -27,10 +27,9 @@ export default new Router({
     {
       path: "/",
       name: "index",
-      components: { default: Index, header: MainNavbar, footer: MainFooter },
+      components: { default: Index, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400, position: "fixed" },
-        footer: { backgroundColor: "black" },
       },
     },
     {
