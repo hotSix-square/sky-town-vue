@@ -21,13 +21,14 @@
           <div class="col-2 text-center">{{ array.writer }}</div>
           <div class="col-2 text-center">{{ array.dateTime }}</div>
         </div>
-        <template v-if="isActive[index]">
+        <div v-show="isActive(index)">
           <div>{{ array.content }}</div>
+          <br />
           <template v-if="array.answer != null">
             <div>{{ array.answer.content }}</div>
             <div>{{ array.answer.dateTime }}</div>
           </template>
-        </template>
+        </div>
       </div>
     </div>
   </div>
@@ -43,15 +44,16 @@ export default {
     Badge,
   },
   props: {
-    //content: Array,
-    content: {
-      type: Array,
-    },
-    data() {
-      return {
-        receiveContentList: this.content,
-      };
-    },
+    content: Array,
+    // content: {
+    //   type: Array,
+    // },
+    // data() {
+    //   return {
+    //     receiveContentList: this.content,
+
+    //   };
+    // },
     tableHeight: { type: [String, Number] },
     columnsWidth: { type: [String, Number], default: 100 },
     darkModeOn: { type: Boolean, default: false },
@@ -59,25 +61,34 @@ export default {
   data() {
     return {
       questionList: [],
-      isActive: [],
+      active: null,
     };
   },
   created() {
     this.questionList = this.content;
-    this.isActive = new Array(this.questionList.length);
+    this.active = new Array(this.questionList.length);
     // console.log(this.questionList);
   },
   methods: {
     clickList(no, index) {
-      if (this.questionList[index].answer === null) {
+      if (
+        this.questionList[index].answer == null ||
+        this.questionList[index].answer == undefined
+      ) {
         axios.get("http://localhost:9999/api/answer/" + no).then((resp) => {
           this.questionList[index].answer = resp["data"];
           console.log(this.questionList[index]);
         });
+        this.active[index] = true;
       }
+      // else {
+      // this.active[index] = !this.active[index];
+      // }
       // console.log(resp["data"]);
-      this.isActive[index] = !this.isActive[index];
-      console.log(this.isActive[index]);
+      console.log(this.active[index]);
+    },
+    isActive(index) {
+      return this.active[index];
     },
   },
 };
