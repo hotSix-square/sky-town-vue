@@ -1,5 +1,6 @@
 <template>
-<navbar v-if="userInfo"
+  <navbar
+    v-if="userInfo"
     :position="position"
     type="primary"
     :transparent="transparent"
@@ -12,19 +13,17 @@
     <template slot="navbar-menu">
       <li class="nav-item">
         <router-link class="nav-link" :to="{ name: 'login' }">
-          <p>{{userInfo}}  님 환영합니다.</p>
-        </router-link> 
+          <p>{{ userInfo }} 님 환영합니다.</p>
+        </router-link>
       </li>
       <!-- <li class="nav-item">
         <router-link class="nav-link" :to="{ name: 'logOut' }">
           <p>로그아웃</p>
         </router-link> 
       </li> -->
-      <b-nav-item
-            class="link align-self-center"
-            @click="onClickLogout"
-            >로그아웃</b-nav-item
-          >
+      <b-nav-item class="link align-self-center" @click="onClickLogout"
+        >로그아웃</b-nav-item
+      >
       <li class="nav-item">
         <router-link class="nav-link" :to="{ name: 'RHouse' }">
           <n-button
@@ -36,7 +35,7 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link class="nav-link" :to="{ name: 'house' }">
+        <router-link class="nav-link" :to="{ name: 'map' }">
           <p>House</p>
         </router-link>
       </li>
@@ -51,7 +50,8 @@
       </drop-down>
     </template>
   </navbar>
-  <navbar v-else
+  <navbar
+    v-else
     :position="position"
     type="primary"
     :transparent="transparent"
