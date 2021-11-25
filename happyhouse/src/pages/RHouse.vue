@@ -7,7 +7,7 @@
       >
       </parallax>
     </div>
-    <spinner :loading="$store.state.LoadingStatus"/>
+    <spinner :loading="$store.state.LoadingStatus" />
     <div>
       <b-jumbotron
         v-for="index in infos"
@@ -25,7 +25,9 @@
         </div>
         <div style="float: left; width: 50%; padding: 10px">
           <template
-            ><div class="title-font" v-bind:[aptname]="index.apt.aptName">{{ index.apt.aptName }}</div></template
+            ><div class="title-font" v-bind:[aptname]="index.apt.aptName">
+              {{ index.apt.aptName }}
+            </div></template
           >
           <template
             ><div class="star-font">별점: {{ index.score }}</div></template
@@ -45,7 +47,7 @@
         </div>
 
         <div style="font-size: 3rem">
-          <b-iconstack font-scale="1" @click="confirm()" >
+          <b-iconstack font-scale="1" @click="confirm()">
             <b-icon stacked icon="circle-fill" variant="info"></b-icon>
             <b-icon
               stacked
@@ -62,13 +64,13 @@
         <!-- <b-button variant="success" href="#">좋아요+</b-button> -->
       </b-jumbotron>
     </div>
-    <spinner :loading="$store.state.LoadingStatus"/>
+    <spinner :loading="$store.state.LoadingStatus" />
   </div>
 </template>
 <script>
 import http from "@/util/http-common";
 import { mapState } from "vuex";
-import Spinner from '@/components/Spinner'
+import Spinner from "@/components/Spinner";
 
 const memberStore = "memberStore";
 
@@ -78,12 +80,12 @@ export default {
     ...mapState(memberStore, ["userInfo"]),
   },
   components: {
-		Spinner,
-	},
+    Spinner,
+  },
   data() {
     return {
       LoadingStatus: false,
-      isLoading:true,
+      isLoading: true,
       aptname: null,
       message: null,
       is_show: false,
@@ -112,15 +114,17 @@ export default {
         //axios 통신으로 서버에 이메일 요청 보냄
         // http.defaults.headers["useremail"] = this.userInfo;
         console.log(this.infos[0].itemId);
-        http.get(`/email`,{
-          params: {
-      address: this.userInfo,
-      aptname: this.infos[0].itemId
-    }
-        }).then(({ data }) => {
-          this.message = data;
-          console.log(this.message);
-        });
+        http
+          .get(`/email`, {
+            params: {
+              address: this.userInfo,
+              aptname: this.infos[0].itemId,
+            },
+          })
+          .then(({ data }) => {
+            this.message = data;
+            console.log(this.message);
+          });
       } else {
         //취소
         return false;

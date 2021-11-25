@@ -52,7 +52,7 @@
                           style="margin-left: 5px"
                         >
                           <n-button
-                            v-show="!is_show"
+                            v-show="is_show"
                             @click="handle_toggle"
                             type="primary"
                             round
@@ -61,7 +61,7 @@
                             <i class="now-ui-icons ui-2_favourite-28"></i>
                             평가하기
                           </n-button>
-                          <div v-show="is_show">
+                          <div v-show="!is_show">
                             <div class="star-rating space-x-4 mx-auto">
                               <input
                                 type="radio"
