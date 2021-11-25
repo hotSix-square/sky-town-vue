@@ -301,7 +301,15 @@ export default {
     },
     isExistFacility(data) {
       console.log("편의시설 있는지 확인하자   ", data);
-      if (data != undefined && data != null && this.checked.length != 0) {
+      if (this.checked.length == 0) {
+        return true;
+      } else if (
+        data == undefined ||
+        data == null ||
+        this.checked.length == 0
+      ) {
+        return false;
+      } else {
         var list = data.split(",").map((el) => el.replace(" ", ""));
         console.log(list, this.checked);
 
@@ -313,8 +321,6 @@ export default {
           }
         });
         return isTrue;
-      } else {
-        return true;
       }
     },
   },

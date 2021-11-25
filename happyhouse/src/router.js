@@ -17,8 +17,7 @@ import KakaoMap from "./pages/components/house/KakaoMap.vue";
 import AptTable from "./pages/components/house/AptTable.vue";
 import SideTab from "./pages/components/house/SideTab.vue";
 // import store from "./store/index"
-import store from "./store/modules/spinnerStore"
-
+import store from "./store/modules/spinnerStore";
 
 Vue.use(Router);
 
@@ -91,10 +90,9 @@ export default new Router({
     {
       path: "/question",
       name: "question",
-      components: { default: QnA, header: MainNavbar, footer: MainFooter },
+      components: { default: QnA, header: MainNavbar },
       props: {
         header: { colorOnScroll: 400, position: "fixed" },
-        footer: { backgroundColor: "black" },
       },
     },
     {
@@ -103,11 +101,9 @@ export default new Router({
       components: {
         default: CreateForm,
         header: MainNavbar,
-        footer: MainFooter,
       },
       props: {
         header: { colorOnScroll: 400, position: "fixed" },
-        footer: { backgroundColor: "black" },
       },
     },
     {
@@ -154,13 +150,13 @@ export default new Router({
       return { x: 0, y: 0 };
     }
   },
-  beforeEach:(next) => {
-    store.commit('startSpinner');
+  beforeEach: (next) => {
+    store.commit("startSpinner");
     setTimeout(() => {
-        next();
+      next();
     }, 3);
   },
-  afterEach:() => {
-    store.commit('endSpinner');
+  afterEach: () => {
+    store.commit("endSpinner");
   },
 });

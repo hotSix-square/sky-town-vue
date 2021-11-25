@@ -20,6 +20,7 @@ export default {
       map: null,
       clusterImage: [],
       customOverlay: [],
+      findp: 0,
     };
   },
   mounted() {
@@ -119,8 +120,8 @@ export default {
     },
     dong(val) {
       console.log("dong 바뀜!!!!!", val);
+      this.findp = 0;
       // 아파트 정보 + 좌표 가져오기
-      console.log(val);
       if (val.code != null) {
         this.$router.replace({
           name: "grpApt",
@@ -142,11 +143,15 @@ export default {
               this.dong.totalCnt = Number(resp.data.totalCnt);
               this.dong.aptCnt = Number(resp.data.aptCnt);
               this.aptlist = resp.data.aptBasicList;
-              this.displayMarker(resp.data.aptBasicList);
-            }, 300 * resp.data.length);
+              this.displayMarker(this.aptlist);
+            }, 300 * resp.data.aptBasicList.length);
           });
       }
     },
+    // findp() {
+    //   if (this.findp == this.aptlist.length) {
+    //   }
+    // },
   },
   computed: {
     sidolist() {
@@ -211,10 +216,23 @@ export default {
   },
   methods: {
     findPlace(object, addr) {
-      this.geocoder.addressSearch(addr, (resp, status) => {
+      // console.log(addr);
+      // console.log(object.aptName);
+      var adr = addr.split(" ").reduce((val, str) => {
+        if (object.aptName == str) {
+          // console.log(str);
+          return val;
+        } else {
+          return val + " " + str;
+        }
+      });
+      console.log(adr);
+      this.geocoder.addressSearch(adr, (resp, status) => {
         // 정상적으로 검색이 완료됐으면
         if (status === kakao.maps.services.Status.OK) {
+          // console.log("나와라!!!", resp);
           object.latlng = new Array(Number(resp[0].y), Number(resp[0].x));
+          // this.findp++;
         }
       });
     },
@@ -306,7 +324,7 @@ export default {
       }
     },
     displayMarker(array) {
-      //   console.log(name, array);
+      // console.log(name, array);
       if (this.markers.length > 0) {
         this.markers.forEach((marker) => marker.setMap(null));
       }
@@ -317,7 +335,7 @@ export default {
       const positions = array
         .map((arr) => arr.latlng)
         .map((position) => new kakao.maps.LatLng(...position));
-      //   console.log(positions);
+      console.log(positions);
 
       if (positions.length > 0) {
         this.markers = array.map((apt) => {

@@ -7,21 +7,21 @@
     <div class="content">
       <div class="container">
         <div class="col-md-5 ml-auto mr-auto">
-          <card type="login" plain>
+          <card type="login" plain class="qna">
             <div slot="header" class="logo-container">
               <h3>문의하기</h3>
             </div>
 
             <fg-input
               type="text"
-              class="input-lg"
+              class="input-lg title"
               placeholder="TITLE"
               v-model="question.title"
             />
             <fg-input
               v-model="question.content"
               type="text"
-              class="input-lg"
+              class="input-lg textarea"
               placeholder="input content..."
             />
 
@@ -87,4 +87,20 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+.qna.card-plain {
+  /* background: #fff; */
+  box-shadow: none;
+  max-width: 800px !important;
+  font-size: 18px;
+}
+.textarea div {
+  height: 400px !important;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 30px;
+}
+.title div {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 30px;
+}
+</style>

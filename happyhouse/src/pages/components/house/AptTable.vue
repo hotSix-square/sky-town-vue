@@ -1,7 +1,7 @@
 <template>
   <!-- 조회 테이블 start -->
   <div class="table-flex">
-    <div class="table-layer">
+    <div class="table-layer" style="overflow: scroll">
       <!-- 제목+ 뒤로 가기 -->
       <div class="table-wrapper table-content">
         <div class="table-icon">
@@ -177,7 +177,7 @@
                 style="height: 11px; background-color: rgb(238, 238, 238)"
               ></div>
             </div>
-            <div class="table-content" style="flex: 1 1 auto">
+            <div class="table-content">
               <div
                 class="table-content"
                 style="flex-basis: auto; background-color: rgb(255, 255, 255)"
@@ -224,7 +224,7 @@
                   ></div>
                 </div>
                 <!-- for문 시작 -->
-                <table class="table">
+                <table class="table" style="margin-bottom: 0">
                   <thead>
                     <tr>
                       <th>계약일</th>
@@ -252,8 +252,223 @@
                 </table>
                 <!-- for문 끝 -->
               </div>
+              <div
+                class="table-content"
+                style="background-color: rgb(238, 238, 238); height: 11px"
+              ></div>
             </div>
-            <div class="table-content"></div>
+            <div class="table-content" style="margin-bottom: 17%">
+              <div
+                class="table-content"
+                style="border-top-width: 1px; border-color: rgb(238, 238, 238)"
+              >
+                <div
+                  class="table-content"
+                  style="
+                    flex-direction: column;
+                    flex-basis: auto;
+                    background-color: rgba(255, 255, 255, 1);
+                  "
+                >
+                  <!-- 단지 정보 start -->
+                  <div
+                    v-if="apt.aptInfo.codeSaleNm"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">분양형태</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.codeSaleNm }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.codeAptNm"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">단지분류</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.codeAptNm }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.codeGarbage"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">음식물처리방법</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.codeGarbage }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.aptdEcnt"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">승강기대수</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.aptdEcnt }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.aptdPcnt"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">주차대수</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.aptdPcnt + apt.aptInfo.aptdPcntu }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.codeNet"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">주차관제.홈네트워크 여부</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.codeNet }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.aptdCccnt"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">CCTV 카메라 수</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.aptdCccnt }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.aptdWtimebus"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">버스정류장 거리</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.aptdWtimebus }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.aptdWtimesub"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">지하철역 거리</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.subwayLine }}
+                          {{ apt.aptInfo.subwayStation }}
+                          {{ apt.aptInfo.aptdWtimesub }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.welfareFacility"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">부대시설 및 복리시설</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.welfareFacility }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.convenientFacility"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">편의시설</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.convenientFacility }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-if="apt.aptInfo.educationFacility"
+                    class="table-content"
+                    style="flex-direction: column; flex-basis: auto"
+                  >
+                    <div class="table-content data-row">
+                      <div class="table-content field-name">
+                        <div class="field-text">교육시설</div>
+                      </div>
+                      <div class="table-content data-style">
+                        <div class="field-data">
+                          {{ apt.aptInfo.educationFacility }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- 단지 정보 end -->
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -276,7 +491,7 @@ export default {
     return {
       is_show: "false",
       score: "",
-      itemId:"",
+      itemId: "",
     };
   },
   computed: {
@@ -355,15 +570,17 @@ export default {
     handle_toggle() {
       this.is_show = !this.is_show;
       //서버랑 axios 통신
-      http.get(`/aptscore`,{
-        params:{
-          userId: this.userInfo,
-          itemId: this.apt.aptInfo.aptCode,
-          score: this.score,
-        },
-      }).then(({data})=>{
-        console.log(data);//받아올게 없긴 함
-      });
+      http
+        .get(`/aptscore`, {
+          params: {
+            userId: this.userInfo,
+            itemId: this.apt.aptInfo.aptCode,
+            score: this.score,
+          },
+        })
+        .then(({ data }) => {
+          console.log(data); //받아올게 없긴 함
+        });
     },
   },
 };
@@ -399,5 +616,56 @@ export default {
 .star-rating label:hover,
 .star-rating label:hover ~ label {
   -webkit-text-fill-color: #fff58c;
+}
+
+.field-name {
+  align-items: flex-start;
+  align-self: flex-start;
+  flex: 33 0 0 !important;
+  flex-flow: row wrap;
+  overflow: visible;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+.data-row {
+  align-items: center !important;
+  flex: 1 1 auto !important;
+  flex-direction: row !important;
+  min-height: 38px !important;
+  padding: 9px 18px 8px !important;
+}
+
+.data-style {
+  align-items: flex-start;
+  align-self: flex-start;
+  flex: 67 0 21% !important;
+  flex-flow: row wrap;
+  margin-left: 4px;
+  /* flex-basis: 55% !important; */
+  overflow: visible;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.field-text {
+  color: rgb(117, 117, 117);
+  flex-shrink: 1;
+  flex-wrap: wrap;
+  font-size: 12px;
+  line-height: 21px;
+  border: 0 solid black;
+  box-sizing: border-box;
+  flex-basis: 0 !important;
+  margin-right: 10px;
+}
+.field-data {
+  color: rgb(34, 34, 34);
+  flex-shrink: 1;
+  flex-wrap: wrap;
+  font-size: 12px;
+  line-height: 21px;
+  border: 0 solid black;
+  box-sizing: border-box;
+  flex-basis: 0 !important;
 }
 </style>
