@@ -52,6 +52,8 @@
                           style="margin-left: 5px"
                         >
                           <n-button
+                            v-show="!is_show"
+                            @click="handle_toggle"
                             type="primary"
                             round
                             style="margin: 0; padding: 0.5em 1rem"
@@ -59,6 +61,58 @@
                             <i class="now-ui-icons ui-2_favourite-28"></i>
                             평가하기
                           </n-button>
+                          <div v-show="is_show">
+                            <div class="star-rating space-x-4 mx-auto">
+                              <input
+                                type="radio"
+                                id="5-stars"
+                                name="rating"
+                                value="5"
+                                v-model="score"
+                              />
+                              <label for="5-stars" class="star pr-4">★</label>
+                              <input
+                                type="radio"
+                                id="4-stars"
+                                name="rating"
+                                value="4"
+                                v-model="score"
+                              />
+                              <label for="4-stars" class="star">★</label>
+                              <input
+                                type="radio"
+                                id="3-stars"
+                                name="rating"
+                                value="3"
+                                v-model="score"
+                              />
+                              <label for="3-stars" class="star">★</label>
+                              <input
+                                type="radio"
+                                id="2-stars"
+                                name="rating"
+                                value="2"
+                                v-model="score"
+                              />
+                              <label for="2-stars" class="star">★</label>
+                              <input
+                                type="radio"
+                                id="1-star"
+                                name="rating"
+                                value="1"
+                                v-model="score"
+                              />
+                              <label for="1-star" class="star">★</label>
+                            </div>
+                            <n-button
+                              @click="handle_toggle"
+                              type="primary"
+                              round
+                              style="margin: 0; padding: 0.5em 1rem"
+                            >
+                              완료
+                            </n-button>
+                          </div>
                         </div>
                       </div>
                       <div
@@ -210,15 +264,23 @@
 
 <script>
 import { Button } from "@/components";
+import http from "@/util/http-common";
+import { mapState } from "vuex";
+const memberStore = "memberStore";
 
 export default {
   components: {
     [Button.name]: Button,
   },
   data() {
-    return {};
+    return {
+      is_show: "false",
+      score: "",
+      itemId:"",
+    };
   },
   computed: {
+    ...mapState(memberStore, ["userInfo"]),
     sidolist() {
       return this.$store.getters.getSidoList;
     },
@@ -290,9 +352,52 @@ export default {
       }
       return unit;
     },
+    handle_toggle() {
+      this.is_show = !this.is_show;
+      //서버랑 axios 통신
+      http.get(`/aptscore`,{
+        params:{
+          userId: this.userInfo,
+          itemId: this.apt.aptInfo.aptCode,
+          score: this.score,
+        },
+      }).then(({data})=>{
+        console.log(data);//받아올게 없긴 함
+      });
+    },
   },
 };
 </script>
 
 <style>
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  justify-content: space-around;
+  padding: 0 0.2em;
+  text-align: center;
+  width: 5em;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 2.3px;
+  -webkit-text-stroke-color: #2b2a29;
+  cursor: pointer;
+}
+
+.star-rating :checked ~ label {
+  -webkit-text-fill-color: gold;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  -webkit-text-fill-color: #fff58c;
+}
 </style>
