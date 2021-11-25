@@ -153,7 +153,7 @@
                   @click="routeApt(apt)"
                 >
                   <div
-                    v-show="isExistFacility(apt.aptInfo.welfareFacility)"
+                    v-show="isExistFacility(apt.welfareFacility)"
                     class="table-content"
                     style="background-color: rgb(255, 255, 255)"
                   >
@@ -272,11 +272,6 @@ export default {
     },
   },
   watch: {},
-  updated() {
-    console.log("code##########", this.$route.params.code);
-    var code = this.$route.params.code;
-    console.log(code.length, typeof code.length);
-  },
   methods: {
     back() {
       this.$router.go(-1);
@@ -305,16 +300,19 @@ export default {
       });
     },
     isExistFacility(data) {
-      console.log("편의시설 있는지 확인하자   ", data, this.checked);
-      if (data.length != 0 && this.checked.length != 0) {
-        var list = data.split(",");
+      console.log("편의시설 있는지 확인하자   ", data);
+      if (data != undefined && data != null && this.checked.length != 0) {
+        var list = data.split(",").map((el) => el.replace(" ", ""));
+        console.log(list, this.checked);
 
+        var isTrue = true;
         this.checked.forEach((element) => {
           var isExist = list.includes(element);
           if (!isExist) {
-            return false;
+            isTrue = false;
           }
         });
+        return isTrue;
       } else {
         return true;
       }
