@@ -86,13 +86,12 @@
                 <div class="table-content avg">
                   <div class="table-content avg-text">
                     <div class="avg-text-css">
-                      약 {{ changeUnit(type.amtAvg) }} |
-                      {{ changeUnit(type.areaAvg) }}/m2당
+                      매매 시세 {{ changeUnit(type.amtAvg) }}
                     </div>
                   </div>
                 </div>
                 <div class="table-content min-max">
-                  <div>그룹의 최소~최대값을 나타내는 장소입니당~!~!</div>
+                  <div>평당가 {{ changeUnit(type.areaAvg) }}</div>
                 </div>
               </div>
               <div
@@ -151,12 +150,7 @@
                   class="table-content"
                   v-for="(apt, index) in aptlist"
                   :key="index"
-                  @click="
-                    $router.push({
-                      name: 'apt',
-                      params: { code: apt.aptCode },
-                    })
-                  "
+                  @click="routeApt(apt)"
                 >
                   <div
                     class="table-content"
@@ -183,8 +177,8 @@
                           {{ apt.aptName }}
                         </div>
                         <div class="apt-name">
-                          {{ apt.aptAvg }} | {{ apt.aptDongCnt }} 동
-                          {{ apt.aptdaCnt }} 세대
+                          시세 {{ changeUnit(apt.amtAvg) }} |
+                          {{ apt.aptDongCnt }} 동 {{ apt.aptdaCnt }} 세대
                         </div>
                         <div class="apt-name">{{ apt.aptAddr }}</div>
                       </div>
@@ -204,6 +198,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {};
@@ -291,6 +287,18 @@ export default {
         unit += data.substr(len - 4, 1) + "천";
       }
       return unit;
+    },
+    routeApt(apt) {
+      this.$router.push({
+        name: "apt",
+        params: { code: apt.aptCode },
+      });
+
+      axios.get("http://localhost:9999/apt/" + apt.aptCode).then((resp) => {
+        // resp.data.latlng = pos;
+        this.$store.commit("setApt", resp.data); // 클릭한 아파트 정보 저장
+        console.log("apt 정보 저장", resp.data);
+      });
     },
   },
 };

@@ -17,10 +17,13 @@
             </div>
           </div>
           <div class="tab-title">
-            {{ sido.name }}
-            {{ gugun.name }}
-            {{ dong.name }}
-            <!-- {{ sido.name + " " + gugun.name + " " + dong.name }} -->
+            {{
+              apt.aptInfo.sidoName +
+              " " +
+              apt.aptInfo.gugunName +
+              " " +
+              apt.aptInfo.dongName
+            }}
           </div>
           <div
             class="table-content"
@@ -47,7 +50,30 @@
                         <div
                           class="table-content row-fd"
                           style="margin-left: 5px"
-                        ></div>
+                        >
+                          <n-button
+                            type="primary"
+                            round
+                            style="margin: 0; padding: 0.5em 1rem"
+                          >
+                            <i class="now-ui-icons ui-2_favourite-28"></i>
+                            평가하기
+                          </n-button>
+                        </div>
+                      </div>
+                      <div
+                        class="table-content"
+                        style="
+                          align-items: flex-start;
+                          flex-direction: row;
+                          overflow: visible;
+                        "
+                      >
+                        <div class="table-content detail-data">
+                          <div class="detail-text">
+                            {{ apt.aptInfo.aptAddr }}
+                          </div>
+                        </div>
                       </div>
                       <div
                         class="table-content"
@@ -81,14 +107,13 @@
                 <div class="table-content avg">
                   <div class="table-content avg-text">
                     <div class="avg-text-css">
-                      약 {{ changeUnit(apt.aptAvg.amtAvg) }} |
-                      {{ changeUnit(apt.aptAvg.areaAvg) }}/m2당
+                      매매 시세 {{ changeUnit(apt.aptAvg.amtAvg) }}
                     </div>
                   </div>
                 </div>
                 <div class="table-content min-max">
                   <div>
-                    {{ changeUnit(apt.aptAvg.min) }} ~
+                    최소 {{ changeUnit(apt.aptAvg.min) }} ~ 최대
                     {{ changeUnit(apt.aptAvg.max) }}
                   </div>
                 </div>
@@ -145,51 +170,32 @@
                   ></div>
                 </div>
                 <!-- for문 시작 -->
-                <div
-                  class="table-content"
-                  v-for="(deal, index) in apt.aptDealList"
-                  :key="index"
-                >
-                  <div
-                    class="table-content"
-                    style="background-color: rgb(255, 255, 255)"
-                  >
-                    <div class="table-content list-content">
-                      <div
-                        class="table-content"
-                        style="
-                          justify-content: center;
-                          flex-direction: column;
-                          flex: 1 1 0%;
-                        "
-                      >
-                        <div
-                          class="apt-name"
-                          style="
-                            font-size: 16px;
-                            line-height: 21px;
-                            margin-top: 0;
-                            font-weight: bold;
-                          "
-                        >
-                          {{ changeUnit(deal.dealAmount) }}
-                        </div>
-                        <div class="apt-name">
-                          {{ deal.buildYear }} | {{ deal.dealArea }}m2
-                        </div>
-                        <div class="apt-name">
-                          {{
-                            deal.dealYear +
-                            "." +
-                            deal.dealMonth +
-                            "." +
-                            deal.dealDay
-                          }}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>계약일</th>
+                      <th>거래가격</th>
+                      <th class="text-center">전용면적</th>
+                      <th>층수</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(deal, index) in apt.aptDealList" :key="index">
+                      <td>
+                        {{
+                          deal.dealYear +
+                          "." +
+                          deal.dealMonth +
+                          "." +
+                          deal.dealDay
+                        }}
+                      </td>
+                      <td>{{ changeUnit(deal.dealAmount) }}</td>
+                      <td>{{ deal.dealArea }}m2</td>
+                      <td>{{ deal.floor }}m2</td>
+                    </tr>
+                  </tbody>
+                </table>
                 <!-- for문 끝 -->
               </div>
             </div>
@@ -203,7 +209,12 @@
 </template>
 
 <script>
+import { Button } from "@/components";
+
 export default {
+  components: {
+    [Button.name]: Button,
+  },
   data() {
     return {};
   },

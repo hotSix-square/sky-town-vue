@@ -13,14 +13,14 @@
           >
             <select class="btn btn-primary" v-model="sido">
               <option value="null">시도</option>
-              <option value="0">선택</option>
+              <option value="">선택</option>
               <option v-for="sido in sidolist" :key="sido.code" :value="sido">
                 {{ sido.name }}
               </option>
             </select>
             <select class="btn btn-primary" v-model="gugun">
               <option value="null">구군</option>
-              <option value="0">선택</option>
+              <option value="">선택</option>
               <option
                 v-for="gugun in gugunlist"
                 :key="gugun.code"
@@ -31,7 +31,7 @@
             </select>
             <select class="btn btn-primary" v-model="dong">
               <option value="null">읍면동</option>
-              <option value="0">선택</option>
+              <option value="">선택</option>
               <option v-for="dong in donglist" :key="dong.code" :value="dong">
                 {{ dong.name }}
               </option>

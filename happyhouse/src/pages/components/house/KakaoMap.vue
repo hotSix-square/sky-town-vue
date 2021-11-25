@@ -120,6 +120,7 @@ export default {
     dong(val) {
       console.log("dong 바뀜!!!!!", val);
       // 아파트 정보 + 좌표 가져오기
+      console.log(val);
       if (val.code != null) {
         this.$router.replace({
           name: "grpApt",
@@ -139,12 +140,6 @@ export default {
             console.log("resp.data.length", resp.data.length);
             setTimeout(() => {
               this.aptlist = resp.data;
-              console.log(resp.data);
-              this.donglist = resp.data.nextZoneList;
-              this.aptlist = resp.data.aptBasicList;
-              // this.dong.aptBasicList = resp.data.aptBasicList;
-              this.dong.aptCnt = Number(resp.data.aptCnt);
-              this.dong.totalCnt = Number(resp.data.totalCnt);
               this.displayMarker(resp.data);
             }, 300 * resp.data.length);
           });
@@ -263,10 +258,10 @@ export default {
 
           var len = position.amtAvg.length;
           var unit = "";
-          console.log(
-            position.amtAvg.substr(0, len - 4),
-            position.amtAvg.substr(len - 4, 1)
-          );
+          // console.log(
+          //   position.amtAvg.substr(0, len - 4),
+          //   position.amtAvg.substr(len - 4, 1)
+          // );
           if (len >= 5) {
             unit += position.amtAvg.substr(0, len - 4) + "억 ";
           }
