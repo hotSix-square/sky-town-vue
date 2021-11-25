@@ -77,6 +77,7 @@ export default {
       }
       // console.log(resp["data"]);
       this.isActive[index] = !this.isActive[index];
+      console.log(this.isActive[index]);
     },
   },
 };

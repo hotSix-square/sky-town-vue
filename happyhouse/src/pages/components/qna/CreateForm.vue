@@ -43,6 +43,9 @@
 <script>
 import axios from "axios";
 import { Checkbox, Card, Button, FormGroupInput } from "@/components";
+import { mapState } from "vuex";
+
+const memberStore = "memberStore";
 
 export default {
   name: "qna-form-page",
@@ -58,13 +61,18 @@ export default {
       question: {
         title: "",
         content: "",
-        writer: "ssafy",
+        // writer: "",
         state: "답변대기",
       },
     };
   },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
   methods: {
     insertQuestion() {
+      this.question.writer = this.userInfo.split("@")[0];
+      console.log(this.question);
       axios
         .post("http://localhost:9999/api/question", this.question)
         .then((resp) => {
