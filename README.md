@@ -1,9 +1,9 @@
-# pjt_daejeon_6th_class4_vue_team04
+# Sky Town
 
-# 개발자
+### 개발자
 김지언, 송예인
 
-# 기능
+## 기능
 오전
 
 - [x]  데이터베이스 구축
