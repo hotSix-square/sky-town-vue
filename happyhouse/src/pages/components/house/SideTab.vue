@@ -293,7 +293,7 @@ export default {
         params: { code: apt.aptCode },
       });
 
-      axios.get("http://localhost:9999/apt/" + apt.aptCode).then((resp) => {
+      axios.get("/apt/" + apt.aptCode).then((resp) => {
         // resp.data.latlng = pos;
         this.$store.commit("setApt", resp.data); // 클릭한 아파트 정보 저장
         console.log("apt 정보 저장", resp.data);

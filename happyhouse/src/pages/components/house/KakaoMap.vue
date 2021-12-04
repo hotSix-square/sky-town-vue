@@ -25,7 +25,7 @@ export default {
   },
   mounted() {
     this.sido = null;
-    axios.get("http://localhost:9999/map/sido").then((resp) => {
+    axios.get("/map/sido").then((resp) => {
       //   this.$store.commit("setSidoList", resp.data);
       this.sidolist_init = resp.data;
       if (window.kakao && window.kakao.maps) {
@@ -66,7 +66,7 @@ export default {
           });
         }
         axios
-          .get("http://localhost:9999/map/gugun", {
+          .get("/map/gugun", {
             params: { sido: val.code },
           })
           .then((resp) => {
@@ -99,7 +99,7 @@ export default {
           params: { code: val.code },
         });
         axios
-          .get("http://localhost:9999/map/dong", {
+          .get("/map/dong", {
             params: { gugun: val.code },
           })
           .then((resp) => {
@@ -128,7 +128,7 @@ export default {
           params: { code: val.code },
         });
         axios
-          .get("http://localhost:9999/map/list", {
+          .get("/map/list", {
             params: {
               dong: val.code,
             },
@@ -351,13 +351,11 @@ export default {
               params: { code: apt.aptCode },
             });
             // 마커 클릭 이벤트 등록
-            axios
-              .get("http://localhost:9999/apt/" + apt.aptCode)
-              .then((resp) => {
-                resp.data.latlng = pos;
-                this.$store.commit("setApt", resp.data); // 클릭한 아파트 정보 저장
-                console.log("apt 정보 저장", resp.data);
-              });
+            axios.get("/apt/" + apt.aptCode).then((resp) => {
+              resp.data.latlng = pos;
+              this.$store.commit("setApt", resp.data); // 클릭한 아파트 정보 저장
+              console.log("apt 정보 저장", resp.data);
+            });
           });
           return marker;
         });

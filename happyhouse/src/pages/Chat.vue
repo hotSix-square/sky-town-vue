@@ -10,7 +10,8 @@
                 v-show="isConnect"
                 class="btn btn-default"
                 type="submit"
-                @click="connect">
+                @click="connect"
+              >
                 Bot이랑 대화하기
               </button>
               <!-- <button
@@ -27,15 +28,15 @@
         <div class="col-md-6">
           <form class="form-inline" @submit.prevent>
             <!-- <div class="form-group"> -->
-              <!-- <label for="msg">문의사항</label> -->
-              
-              <input
-                type="text"
-                v-model="msg"
-                class="form-control"
-                placeholder="내용을 입력하세요...."
-              />
-             
+            <!-- <label for="msg">문의사항</label> -->
+
+            <input
+              type="text"
+              v-model="msg"
+              class="form-control"
+              placeholder="내용을 입력하세요...."
+            />
+
             <!-- </div> -->
             <button
               v-show="!isConnect"
@@ -99,14 +100,13 @@ export default {
     //   this.msg = "";
     // },
     connect() {
-      var socket = new SockJS("http://localhost:9999/ws");
+      var socket = new SockJS("/ws");
       this.stompClient = Stomp.over(socket);
       this.stompClient.connect({}, (frame) => {
         // this.setConnected(true);
         // this.connected = true;
         this.isConnect = true;
         console.log("Connected: " + frame);
-
 
         this.stompClient.subscribe("/topic/public", (message) => {
           this.message.push("봇: " + message.body);
@@ -127,8 +127,8 @@ export default {
       //   let message = $("#msg").val();
       //   this.showMessage("보낸 메시지: " + this.msg);
       this.message.push("나: " + this.msg);
-      this.stompClient.send("/sendMessage", JSON.stringify(this.msg),{}); //서버에 보낼 메시지
-      console.log(JSON.stringify(this.msg))
+      this.stompClient.send("/sendMessage", JSON.stringify(this.msg), {}); //서버에 보낼 메시지
+      console.log(JSON.stringify(this.msg));
       this.msg = "";
     },
     // showMessage(message) {
@@ -140,14 +140,14 @@ export default {
 
 
 <style>
-.section-bot{
-  border-width : 10px;
-  border-style : solid;
-  border-color : #0291fb;
+.section-bot {
+  border-width: 10px;
+  border-style: solid;
+  border-color: #0291fb;
   background-color: #ffffff;
 }
 
-.form-control{
+.form-control {
   text-align: center; /* Quirks Mode 를 위한 가운데 정렬 */
 }
 </style>

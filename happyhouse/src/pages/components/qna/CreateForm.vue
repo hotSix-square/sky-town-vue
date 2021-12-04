@@ -73,16 +73,14 @@ export default {
     insertQuestion() {
       this.question.writer = this.userInfo.split("@")[0];
       console.log(this.question);
-      axios
-        .post("http://localhost:9999/api/question", this.question)
-        .then((resp) => {
-          if (resp["data"] == "success") {
-            alert("추가 완료");
-            this.$router.push({ name: "question" });
-          } else {
-            alert("추가 실패");
-          }
-        });
+      axios.post("/api/question", this.question).then((resp) => {
+        if (resp["data"] == "success") {
+          alert("추가 완료");
+          this.$router.push({ name: "question" });
+        } else {
+          alert("추가 실패");
+        }
+      });
     },
   },
 };
