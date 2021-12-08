@@ -50,7 +50,7 @@ export default {
     };
   },
   created() {
-    axios.get("/api/question").then((resp) => {
+    axios.get("/api/qna").then((resp) => {
       this.arrayOfContent = resp["data"];
       console.log(this.arrayOfContent);
     });
