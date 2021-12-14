@@ -75,7 +75,7 @@ export default {
         this.questionList[index].answer == null ||
         this.questionList[index].answer == undefined
       ) {
-        axios.get("/api/answer/" + no).then((resp) => {
+        axios.get("/api/qna/ans/" + no).then((resp) => {
           this.questionList[index].answer = resp["data"];
           console.log(this.questionList[index]);
         });

@@ -73,7 +73,7 @@ export default {
     insertQuestion() {
       this.question.writer = this.userInfo.split("@")[0];
       console.log(this.question);
-      axios.post("/api/question", this.question).then((resp) => {
+      axios.post("/api/qna", this.question).then((resp) => {
         if (resp["data"] == "success") {
           alert("추가 완료");
           this.$router.push({ name: "question" });
